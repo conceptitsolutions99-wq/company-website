@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Service - True Concept</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">◆</span>
+                True Concept
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+            </ul>
+            <div class="nav-user">
+                <span>Welcome, <%= user.name %></span>
+                <a href="/api/auth/logout" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="request-section">
+        <div class="container">
+            <div class="request-wrapper">
+                <div class="service-summary">
+                    <a href="/services" class="back-link">← Back to Services</a>
+                    <h1><%= service.name %></h1>
+                    <p class="service-desc"><%= service.description %></p>
+                    <div class="service-price-large">
+                        <span class="price-label">Starting from</span>
+                        <span class="price-value">EGP <%= service.price.toLocaleString() %></span>
+                    </div>
+                </div>
+
+                <div class="request-form-card">
+                    <h2>Request This Service</h2>
+                    <p>Tell us about your project requirements and we'll get back to you.</p>
+
+                    <form id="requestForm" class="request-form">
+                        <div class="form-group">
+                            <label for="details">Project Details</label>
+                            <textarea id="details" name="details" required minlength="20" rows="6"
+                                placeholder="Describe your project requirements, timeline, and any specific features you need..."></textarea>
+                            <span class="form-hint">Minimum 20 characters</span>
+                            <span class="form-error" id="detailsError"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full btn-lg">
+                            Submit Request
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </form>
+
+                    <div id="successMessage" class="alert alert-success" style="display: none;">
+                        <h3>Request Submitted Successfully!</h3>
+                        <p>We'll review your request and get back to you within 24-48 hours.</p>
+                        <a href="/dashboard" class="btn btn-primary">View My Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('requestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const details = document.getElementById('details').value;
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const successMessage = document.getElementById('successMessage');
+            const form = e.target;
+
+            if (details.trim().length < 20) {
+                document.getElementById('detailsError').textContent = 'Please enter at least 20 characters';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const token = localStorage.getItem('token');
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+
+                const response = await fetch('/api/requests', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: headers,
+                    body: JSON.stringify({
+                        service_id: <%= service.id %>,
+                        details: details
+                    })
+                });
+
+                if (response.status === 401) {
+                    window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                } else {
+                    document.getElementById('detailsError').textContent = data.error || 'Failed to submit request';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Request';
+                }
+            } catch (err) {
+                document.getElementById('detailsError').textContent = 'Failed to submit request. Please try again.';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Request';
+            }
+        });
+    </script>
+</body>
+</html>

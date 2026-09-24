@@ -1,0 +1,11 @@
+node_modules/
+*.db
+.env
+.env.*
+*.sqlite
+*.sqlite3
+.DS_Store
+Thumbs.db
+*.log
+scratch/
+tests/

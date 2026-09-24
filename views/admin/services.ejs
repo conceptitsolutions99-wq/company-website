@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Services - True Concept Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar admin-nav">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">◆</span>
+                True Concept
+            </a>
+            <ul class="nav-links">
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/services" class="active">Services</a></li>
+                <li><a href="/admin/requests">Requests</a></li>
+            </ul>
+            <div class="nav-user">
+                <span>Admin</span>
+                <a href="/api/auth/logout" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="admin-section">
+        <div class="container">
+            <div class="admin-header">
+                <div>
+                    <h1>Manage Services</h1>
+                    <p>Add, edit, or remove service offerings</p>
+                </div>
+                <a href="/admin/services/add" class="btn btn-primary">
+                    Add New Service
+                    <span class="btn-arrow">+</span>
+                </a>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <% if (services && services.length > 0) { %>
+                <div class="services-admin-grid">
+                    <% services.forEach(service => { %>
+                        <div class="service-admin-card">
+                            <div class="service-admin-image">
+                                <% if (service.image) { %>
+                                    <img src="/images/<%= service.image %>" alt="<%= service.name %>">
+                                <% } else { %>
+                                    <div class="service-placeholder">◆</div>
+                                <% } %>
+                            </div>
+                            <div class="service-admin-content">
+                                <h3><%= service.name %></h3>
+                                <p class="service-admin-desc"><%= service.description.substring(0, 100) %>...</p>
+                                <div class="service-admin-price">EGP <%= service.price.toLocaleString() %></div>
+                                <div class="service-admin-actions">
+                                    <a href="/admin/services/<%= service.id %>/edit" class="btn btn-sm btn-outline">Edit</a>
+                                    <button onclick="deleteService(<%= service.id %>)" class="btn btn-sm btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+                    <h3>No Services Yet</h3>
+                    <p>Create your first service offering.</p>
+                    <a href="/admin/services/add" class="btn btn-primary">Add Service</a>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <script>
+        async function deleteService(id) {
+            if (!confirm('Are you sure you want to delete this service?')) return;
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`/api/services/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Failed to delete service');
+                }
+            } catch (err) {
+                alert('Error deleting service');
+            }
+        }
+    </script>
+</body>
+</html>
