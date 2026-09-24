@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Concept - Technology Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">◆</span>
+                True Concept
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <!-- Mobile specific items -->
+                <li class="mobile-only"><a href="#" id="signOutBtnMobile">Sign Out</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="#" class="btn btn-outline" id="langToggle" style="margin-right: 15px;">AR / EN</a>
+                <a href="#contact" class="btn btn-primary">Get Started</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="hero-shape shape-1"></div>
+            <div class="hero-shape shape-2"></div>
+            <div class="hero-shape shape-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content reveal">
+                <h1 class="hero-title">
+                    Building the <span class="gradient-text">Future</span> of<br>
+                    Enterprise Technology
+                </h1>
+                <p class="hero-subtitle">
+                    We deliver innovative software solutions that transform businesses,
+                    accelerate growth, and drive digital excellence across industries.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#services" class="btn btn-primary btn-lg">
+                        Our Services
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <a href="#contact" class="btn btn-outline btn-lg">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual reveal delay-1">
+                <div class="hero-card">
+                    <div class="hero-card-header">
+                        <div class="hero-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="hero-card-content">
+                        <div class="code-line">
+                            <span class="code-keyword">const</span>
+                            <span class="code-variable">solution</span>
+                            <span class="code-operator">=</span>
+                            <span class="code-function">TechNova</span><span class="code-punctuation">.</span><span class="code-function">create</span><span class="code-punctuation">({</span>
+                        </div>
+                        <div class="code-line code-indent">
+                            <span class="code-string">innovation</span><span class="code-punctuation">:</span>
+                            <span class="code-string">true</span><span class="code-punctuation">,</span>
+                        </div>
+                        <div class="code-line code-indent">
+                            <span class="code-string">scalability</span><span class="code-punctuation">:</span>
+                            <span class="code-string">"unlimited"</span><span class="code-punctuation">,</span>
+                        </div>
+                        <div class="code-line code-indent">
+                            <span class="code-string">success</span><span class="code-punctuation">:</span>
+                            <span class="code-string">"guaranteed"</span>
+                        </div>
+                        <div class="code-line"><span class="code-punctuation">});</span></div>
+                        <div class="cursor-line"><span class="cursor">|</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">About Us</span>
+                <h2 class="section-title">Powering Digital Transformation</h2>
+                <p class="section-desc">
+                    Since 2019, we've been helping businesses harness the power of technology
+                    to achieve their goals and stay ahead in a rapidly evolving digital landscape.
+                </p>
+            </div>
+            <div class="stats-grid reveal delay-1">
+                <div class="stat-card">
+                    <div class="stat-icon">5+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">150+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">50+</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+            <div class="about-mission reveal delay-2">
+                <div class="mission-content">
+                    <h3>Our Mission</h3>
+                    <p>
+                        To empower organizations with cutting-edge technology solutions that
+                        drive efficiency, foster innovation, and create lasting competitive advantages
+                        in an increasingly digital world.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Services</span>
+                <h2 class="section-title">What We Do Best</h2>
+                <p class="section-desc">
+                    Comprehensive IT solutions tailored to meet your unique business challenges
+                    and drive measurable results.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Custom Software Development</h3>
+                    <p class="service-desc">
+                        Tailored software solutions built from the ground up to address your
+                        specific business requirements and workflows.
+                    </p>
+                    <a href="#contact" class="service-link">
+                        Learn more <span class="link-arrow">→</span>
+                    </a>
+                </div>
+                <div class="service-card reveal delay-1">
+                    <div class="service-icon cloud">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Cloud Solutions</h3>
+                    <p class="service-desc">
+                        Scalable cloud architecture design, migration strategies, and
+                        managed services for maximum flexibility and performance.
+                    </p>
+                    <a href="#contact" class="service-link">
+                        Learn more <span class="link-arrow">→</span>
+                    </a>
+                </div>
+                <div class="service-card reveal delay-2">
+                    <div class="service-icon consulting">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">IT Consulting</h3>
+                    <p class="service-desc">
+                        Strategic technology advisory services to help you make informed
+                        decisions and optimize your IT infrastructure.
+                    </p>
+                    <a href="#contact" class="service-link">
+                        Learn more <span class="link-arrow">→</span>
+                    </a>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon mobile">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Mobile App Development</h3>
+                    <p class="service-desc">
+                        Native and cross-platform mobile applications that deliver
+                        exceptional user experiences on iOS and Android.
+                    </p>
+                    <a href="#contact" class="service-link">
+                        Learn more <span class="link-arrow">→</span>
+                    </a>
+                </div>
+                <div class="service-card reveal delay-1">
+                    <div class="service-icon data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Data Analytics</h3>
+                    <p class="service-desc">
+                        Transform raw data into actionable insights with advanced analytics,
+                        dashboards, and business intelligence solutions.
+                    </p>
+                    <a href="#contact" class="service-link">
+                        Learn more <span class="link-arrow">→</span>
+                    </a>
+                </div>
+                <div class="service-card reveal delay-2">
+                    <div class="service-icon security">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Cybersecurity</h3>
+                    <p class="service-desc">
+                        Comprehensive security assessments, threat protection, and
+                        compliance solutions to safeguard your digital assets.
+                    </p>
+                    <a href="#contact" class="service-link">
+                        Learn more <span class="link-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Testimonials</span>
+                <h2 class="section-title">What Our Clients Say</h2>
+                <p class="section-desc">
+                    Don't just take our word for it—hear from the businesses we've helped transform.
+                </p>
+            </div>
+            <div class="testimonials-slider reveal delay-1">
+                <div class="testimonial-track" id="testimonialTrack">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-text">
+                            "TechNova transformed our entire digital infrastructure. Their team
+                            was professional, responsive, and delivered beyond our expectations.
+                            Highly recommended!"
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SK</div>
+                            <div class="author-info">
+                                <div class="author-name">Sarah Kim</div>
+                                <div class="author-company">CEO, Innovate Labs</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-text">
+                            "Working with TechNova was a game-changer. Their custom software
+                            solution streamlined our operations and increased productivity by 40%."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MR</div>
+                            <div class="author-info">
+                                <div class="author-name">Michael Roberts</div>
+                                <div class="author-company">CTO, FinServe Global</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-text">
+                            "The team's expertise in cloud solutions helped us migrate seamlessly.
+                            Their ongoing support has been exceptional throughout our digital journey."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">EJ</div>
+                            <div class="author-info">
+                                <div class="author-name">Emily Johnson</div>
+                                <div class="author-company">VP Operations, TechFlow</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-nav">
+                    <button class="testimonial-prev" id="prevTestimonial" aria-label="Previous testimonial">←</button>
+                    <div class="testimonial-dots" id="testimonialDots"></div>
+                    <button class="testimonial-next" id="nextTestimonial" aria-label="Next testimonial">→</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <span class="section-label">Get In Touch</span>
+                    <h2 class="section-title">Let's Build Something Amazing Together</h2>
+                    <p class="section-desc">
+                        Ready to transform your business with cutting-edge technology?
+                        Reach out to us today and let's discuss your project.
+                    </p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-text">
+                                <strong>Address</strong>
+                                <span>123 Tech Plaza, Suite 400<br>San Francisco, CA 94105</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div class="contact-text">
+                                <strong>Email</strong>
+                                <span>hello@technova.com</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div class="contact-text">
+                                <strong>Phone</strong>
+                                <span>+1 (555) 123-4567</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper reveal delay-1">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required minlength="2" placeholder="John Doe">
+                            <span class="form-error" id="nameError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="john@company.com">
+                            <span class="form-error" id="emailError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" name="company" placeholder="Your Company (optional)">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required minlength="10" placeholder="Tell us about your project..."></textarea>
+                            <span class="form-error" id="messageError"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Send Message
+                            <span class="btn-arrow">→</span>
+                        </button>
+                        <div class="form-success" id="formSuccess">
+                            Thank you! We'll get back to you within 24 hours.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2>Ready to Transform Your Business?</h2>
+                <p>Let's discuss how we can help you achieve your technology goals.</p>
+                <a href="#contact" class="btn btn-primary btn-lg">
+                    Start Your Project
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon">◆</span>
+                        TechNova
+                    </a>
+                    <p>Building innovative software solutions for modern businesses.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+                        <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+                        <a href="#" class="social-link" aria-label="GitHub">⌥</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Software Development</a></li>
+                        <li><a href="#">Cloud Solutions</a></li>
+                        <li><a href="#">IT Consulting</a></li>
+                        <li><a href="#">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>hello@technova.com</li>
+                        <li>+1 (555) 123-4567</li>
+                        <li>San Francisco, CA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechNova. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
