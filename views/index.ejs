@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Concept - Technology Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">◆</span>
+                True Concept
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Home</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <% if (user.role === 'admin') { %>
+                        <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+                    <% } else { %>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                    <% } %>
+                    <li><a href="/api/auth/logout" class="btn btn-outline btn-sm">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login" class="btn btn-primary">Login</a></li>
+                    <li><a href="/register" class="btn btn-outline">Register</a></li>
+                <% } %>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="hero-shape shape-1"></div>
+            <div class="hero-shape shape-2"></div>
+            <div class="hero-shape shape-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content reveal">
+                <h1 class="hero-title">
+                    Building the <span class="gradient-text">Future</span> of<br>
+                    Enterprise Technology
+                </h1>
+                <p class="hero-subtitle">
+                    We deliver innovative technology solutions that transform businesses,
+                    accelerate growth, and drive digital excellence across industries.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/services" class="btn btn-primary btn-lg">
+                        Browse Services
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <a href="<%= user.role === 'admin' ? '/admin/dashboard' : '/dashboard' %>" class="btn btn-outline btn-lg">
+                            My Dashboard
+                        </a>
+                    <% } else { %>
+                        <a href="/register" class="btn btn-outline btn-lg">
+                            Get Started
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview Section -->
+    <section class="services-preview" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Services</span>
+                <h2 class="section-title">What We Offer</h2>
+                <p class="section-desc">
+                    Choose from our comprehensive range of technology services tailored to your business needs.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon">📱</div>
+                    <h3>Mobile App Development</h3>
+                    <p>Native and cross-platform mobile applications for iOS and Android.</p>
+                </div>
+                <div class="service-card reveal delay-1">
+                    <div class="service-icon">🌐</div>
+                    <h3>Web Development</h3>
+                    <p>Modern, responsive websites built with the latest technologies.</p>
+                </div>
+                <div class="service-card reveal delay-2">
+                    <div class="service-icon">💻</div>
+                    <h3>Custom Software Development</h3>
+                    <p>Tailored enterprise solutions built to your specifications.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">📹</div>
+                    <h3>CCTV Installation</h3>
+                    <p>Professional surveillance system setup and configuration.</p>
+                </div>
+                <div class="service-card reveal delay-1">
+                    <div class="service-icon">🔗</div>
+                    <h3>Network Solutions</h3>
+                    <p>Network infrastructure design and optimization.</p>
+                </div>
+            </div>
+            <div class="section-cta reveal delay-2">
+                <p>Ready to request a service?</p>
+                <a href="/services" class="btn btn-primary">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2>Ready to Get Started?</h2>
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <p>Explore our wide range of services or manage your existing requests.</p>
+                    <div class="cta-buttons">
+                        <a href="/services" class="btn btn-primary btn-lg">Browse Services</a>
+                        <a href="<%= user.role === 'admin' ? '/admin/dashboard' : '/dashboard' %>" class="btn btn-outline btn-lg">My Dashboard</a>
+                    </div>
+                <% } else { %>
+                    <p>Create an account today and start requesting the services you need.</p>
+                    <div class="cta-buttons">
+                        <a href="/register" class="btn btn-primary btn-lg">Create Account</a>
+                        <a href="/login" class="btn btn-outline btn-lg">Already have an account?</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">◆</span>
+                        True Concept
+                    </a>
+                    <p>Delivering innovative technology solutions for modern businesses.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/login">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/services">Mobile Apps</a></li>
+                        <li><a href="/services">Web Development</a></li>
+                        <li><a href="/services">Network Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>hello@trueconcept.com</li>
+                        <li>+1 (555) 123-4567</li>
+                        <li>San Francisco, CA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 True Concept. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

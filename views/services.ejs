@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - True Concept</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">◆</span>
+                True Concept
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/services" class="active">Services</a></li>
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <% if (user.role === 'admin') { %>
+                        <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+                    <% } else { %>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                    <% } %>
+                    <li><a href="/api/auth/logout" class="btn btn-outline btn-sm">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login" class="btn btn-primary btn-sm">Login</a></li>
+                    <li><a href="/register" class="btn btn-outline btn-sm">Register</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Our Services</span>
+                <h1 class="section-title">Technology Solutions for Your Business</h1>
+                <p class="section-desc">Choose from our comprehensive range of services. Click on any service to request it.</p>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <% if (services && services.length > 0) { %>
+                <div class="services-grid-full">
+                    <% services.forEach(service => { %>
+                        <div class="service-card-full">
+                            <div class="service-image">
+                                <% if (service.image) { %>
+                                    <img src="/images/<%= service.image %>" alt="<%= service.name %>">
+                                <% } else { %>
+                                    <div class="service-placeholder">
+                                        <span class="service-emoji">◆</span>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="service-content">
+                                <h3><%= service.name %></h3>
+                                <p class="service-description"><%= service.description %></p>
+                                <div class="service-footer">
+                                    <div class="service-price">
+                                        <span class="price-label">Starting from</span>
+                                        <span class="price-value">EGP <%= service.price.toLocaleString() %></span>
+                                    </div>
+                                    <% if (typeof user !== 'undefined' && user) { %>
+                                        <a href="/request/<%= service.id %>" class="btn btn-primary">
+                                            Request Service
+                                        </a>
+                                    <% } else { %>
+                                        <a href="/login?redirect=/request/<%= service.id %>" class="btn btn-outline">
+                                            Login to Request
+                                        </a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <div class="empty-icon">🔧</div>
+                    <h3>No Services Available</h3>
+                    <p>Check back soon for our service offerings.</p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

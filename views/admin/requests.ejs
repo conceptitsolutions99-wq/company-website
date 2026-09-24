@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Requests - True Concept Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar admin-nav">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">◆</span>
+                True Concept
+            </a>
+            <ul class="nav-links">
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/services">Services</a></li>
+                <li><a href="/admin/requests" class="active">Requests</a></li>
+            </ul>
+            <div class="nav-user">
+                <span>Admin</span>
+                <a href="/api/auth/logout" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="admin-section">
+        <div class="container">
+            <div class="admin-header">
+                <h1>Customer Requests</h1>
+                <p>View and process service requests from customers</p>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <% if (requests && requests.length > 0) { %>
+                <div class="requests-list-full">
+                    <% requests.forEach(request => { %>
+                        <div class="request-full-card">
+                            <div class="request-full-header">
+                                <div class="request-full-info">
+                                    <h3><%= request.service_name %></h3>
+                                    <p class="request-customer">
+                                        From: <strong><%= request.user_name %></strong> (<%= request.user_email %>)
+                                    </p>
+                                    <p class="request-date">
+                                        Submitted: <%= new Date(request.created_at).toLocaleString() %>
+                                    </p>
+                                </div>
+                                <div class="request-full-status">
+                                    <span class="status-badge status-<%= request.status %>">
+                                        <%= request.status.charAt(0).toUpperCase() + request.status.slice(1) %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="request-full-details">
+                                <h4>Project Details:</h4>
+                                <p><%= request.details %></p>
+                            </div>
+                            <div class="request-full-actions">
+                                <% if (request.status === 'pending') { %>
+                                    <button onclick="updateStatus(<%= request.id %>, 'approved')" class="btn btn-success btn-sm">
+                                        ✓ Approve
+                                    </button>
+                                    <button onclick="updateStatus(<%= request.id %>, 'rejected')" class="btn btn-danger btn-sm">
+                                        ✗ Reject
+                                    </button>
+                                <% } else { %>
+                                    <span class="status-text">
+                                        <%= request.status === 'approved' ? 'Request approved - customer notified' : 'Request rejected - customer notified' %>
+                                    </span>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h3>No Requests Yet</h3>
+                    <p>Customer service requests will appear here.</p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <script>
+        async function updateStatus(id, status) {
+            const token = localStorage.getItem('token');
+
+            if (!confirm(`Are you sure you want to ${status} this request?`)) return;
+
+            try {
+                const response = await fetch(`/api/requests/${id}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Failed to update request status');
+                }
+            } catch (err) {
+                alert('Error updating request');
+            }
+        }
+    </script>
+</body>
+</html>
