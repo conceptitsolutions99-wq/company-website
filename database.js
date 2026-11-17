@@ -1,136 +1,73 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+/**
+ * Data layer — Supabase Postgres.
+ *
+ * The app was written against SQLite, which accepts `?` placeholders and
+ * reports the inserted row id on the write handle. So that every query in
+ * server.js keeps working unchanged, this module adapts those two details:
+ *
+ *   • `?` placeholders are rewritten to Postgres `$1, $2, …`
+ *   • `RETURNING id` is appended to INSERTs, so dbRun can resolve `{ id }`
+ *
+ * Write new queries with `?` placeholders and let this module translate them.
+ *
+ * Requires DATABASE_URL — the Supabase pooler connection string:
+ *   postgresql://postgres.<ref>:<password>@<region>.pooler.supabase.com:6543/postgres
+ */
+require('dotenv').config();
 
-const dbPath = path.join(__dirname, 'true_concept.db');
-const db = new sqlite3.Database(dbPath);
+const { Pool } = require('pg');
 
-// Initialize database
-function initializeDatabase() {
-    db.serialize(() => {
-        // Users table
-        db.run(`
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL,
-                role TEXT DEFAULT 'customer',
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        `);
+const connectionString = process.env.DATABASE_URL;
 
-        // Services table
-        db.run(`
-            CREATE TABLE IF NOT EXISTS services (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                description TEXT NOT NULL,
-                price REAL NOT NULL,
-                image TEXT,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        `);
-
-        // Requests table
-        db.run(`
-            CREATE TABLE IF NOT EXISTS requests (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                service_id INTEGER NOT NULL,
-                details TEXT NOT NULL,
-                status TEXT DEFAULT 'pending',
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id),
-                FOREIGN KEY (service_id) REFERENCES services(id)
-            )
-        `);
-
-        // Seed initial admin user if not exists
-        db.get("SELECT * FROM users WHERE email = 'admin@trueconcept.com'", (err, row) => {
-            if (!row) {
-                const bcrypt = require('bcryptjs');
-                const hashedPassword = bcrypt.hashSync('admin123', 10);
-                db.run("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
-                    ['Admin', 'admin@trueconcept.com', hashedPassword, 'admin']
-                );
-            }
-        });
-
-        // Seed initial services if not exists
-        db.get("SELECT COUNT(*) as count FROM services", (err, row) => {
-            if (row && row.count === 0) {
-                const services = [
-                    {
-                        name: 'Custom Software Development',
-                        description: 'Tailored enterprise software solutions built from the ground up to address your specific business requirements and workflows. We create scalable, maintainable code that grows with your business.',
-                        price: 150000
-                    },
-                    {
-                        name: 'Mobile App Development',
-                        description: 'Native and cross-platform mobile applications for iOS and Android. Deliver exceptional user experiences that keep your customers engaged and coming back.',
-                        price: 90000
-                    },
-                    {
-                        name: 'Web Development',
-                        description: 'Modern, responsive websites built with the latest technologies. From simple marketing sites to complex web applications, we create digital experiences that convert.',
-                        price: 75000
-                    },
-                    {
-                        name: 'CCTV Installation',
-                        description: 'Professional surveillance system setup and configuration. Secure your premises with state-of-the-art CCTV technology and 24/7 monitoring capabilities.',
-                        price: 45000
-                    },
-                    {
-                        name: 'Network Solutions',
-                        description: 'Network infrastructure design, setup, and optimization. Ensure reliable, secure, and efficient connectivity for your entire organization.',
-                        price: 120000
-                    }
-                ];
-
-                services.forEach(service => {
-                    db.run(
-                        "INSERT INTO services (name, description, price) VALUES (?, ?, ?)",
-                        [service.name, service.description, service.price]
-                    );
-                });
-            }
-        });
-    });
+if (!connectionString) {
+    throw new Error(
+        'DATABASE_URL is not set. Add the Supabase connection string to .env (or the ' +
+        'Vercel environment variables) before starting the server.'
+    );
 }
 
-// Database query helpers
-const dbQuery = (sql, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.all(sql, params, (err, rows) => {
-            if (err) reject(err);
-            else resolve(rows);
-        });
-    });
+const pool = new Pool({
+    connectionString,
+    // Supabase requires TLS; a local Postgres in development usually has none.
+    ssl: /localhost|127\.0\.0\.1/.test(connectionString) ? false : { rejectUnauthorized: false },
+    // Serverless functions are short-lived; a small pool avoids connection storms.
+    max: Number(process.env.PG_POOL_MAX) || 3,
+    idleTimeoutMillis: 10000
+});
+
+function toPostgres(sql) {
+    let index = 0;
+    return sql.replace(/\?/g, () => '$' + (++index));
+}
+
+function prepare(sql) {
+    let text = toPostgres(sql);
+    if (/^\s*insert\s/i.test(text) && !/returning/i.test(text)) {
+        text += ' RETURNING id';
+    }
+    return text;
+}
+
+const dbQuery = async (sql, params = []) => {
+    const result = await pool.query(prepare(sql), params);
+    return result.rows;
 };
 
-const dbQueryOne = (sql, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.get(sql, params, (err, row) => {
-            if (err) reject(err);
-            else resolve(row);
-        });
-    });
+const dbQueryOne = async (sql, params = []) => {
+    const result = await pool.query(prepare(sql), params);
+    return result.rows[0] || null;
 };
 
-const dbRun = (sql, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.run(sql, params, function(err) {
-            if (err) reject(err);
-            else resolve({ id: this.lastID, changes: this.changes });
-        });
-    });
+const dbRun = async (sql, params = []) => {
+    const result = await pool.query(prepare(sql), params);
+    return {
+        id: result.rows[0] ? result.rows[0].id : null,
+        changes: result.rowCount
+    };
 };
-
-// Initialize database on require
-initializeDatabase();
 
 module.exports = {
-    db,
+    pool,
     dbQuery,
     dbQueryOne,
     dbRun
