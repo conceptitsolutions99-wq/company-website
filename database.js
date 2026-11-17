@@ -8,7 +8,9 @@
  *   • `?` placeholders are rewritten to Postgres `$1, $2, …`
  *   • `RETURNING id` is appended to INSERTs, so dbRun can resolve `{ id }`
  *
- * Write new queries with `?` placeholders and let this module translate them.
+ * The connection pool is created on first use rather than at import time, so a
+ * missing or misconfigured DATABASE_URL cannot take the whole site down: the
+ * marketing pages still render and only data-backed routes fail.
  *
  * Requires DATABASE_URL — the Supabase pooler connection string:
  *   postgresql://postgres.<ref>:<password>@<region>.pooler.supabase.com:6543/postgres
@@ -17,23 +19,36 @@ require('dotenv').config();
 
 const { Pool } = require('pg');
 
-const connectionString = process.env.DATABASE_URL;
+let pool = null;
+let warned = false;
 
-if (!connectionString) {
-    throw new Error(
-        'DATABASE_URL is not set. Add the Supabase connection string to .env (or the ' +
-        'Vercel environment variables) before starting the server.'
-    );
+function getPool() {
+    const connectionString = process.env.DATABASE_URL;
+
+    if (!connectionString) {
+        if (!warned) {
+            warned = true;
+            console.error('[database] DATABASE_URL is not set — routes that need data will fail.');
+        }
+        throw new Error(
+            'DATABASE_URL is not set. Add the Supabase connection string to .env (or the ' +
+            'Vercel environment variables).'
+        );
+    }
+
+    if (!pool) {
+        pool = new Pool({
+            connectionString,
+            // Supabase requires TLS; a local Postgres in development usually has none.
+            ssl: /localhost|127\.0\.0\.1/.test(connectionString) ? false : { rejectUnauthorized: false },
+            // Serverless functions are short-lived; a small pool avoids connection storms.
+            max: Number(process.env.PG_POOL_MAX) || 3,
+            idleTimeoutMillis: 10000
+        });
+    }
+
+    return pool;
 }
-
-const pool = new Pool({
-    connectionString,
-    // Supabase requires TLS; a local Postgres in development usually has none.
-    ssl: /localhost|127\.0\.0\.1/.test(connectionString) ? false : { rejectUnauthorized: false },
-    // Serverless functions are short-lived; a small pool avoids connection storms.
-    max: Number(process.env.PG_POOL_MAX) || 3,
-    idleTimeoutMillis: 10000
-});
 
 function toPostgres(sql) {
     let index = 0;
@@ -49,17 +64,17 @@ function prepare(sql) {
 }
 
 const dbQuery = async (sql, params = []) => {
-    const result = await pool.query(prepare(sql), params);
+    const result = await getPool().query(prepare(sql), params);
     return result.rows;
 };
 
 const dbQueryOne = async (sql, params = []) => {
-    const result = await pool.query(prepare(sql), params);
+    const result = await getPool().query(prepare(sql), params);
     return result.rows[0] || null;
 };
 
 const dbRun = async (sql, params = []) => {
-    const result = await pool.query(prepare(sql), params);
+    const result = await getPool().query(prepare(sql), params);
     return {
         id: result.rows[0] ? result.rows[0].id : null,
         changes: result.rowCount
@@ -67,7 +82,7 @@ const dbRun = async (sql, params = []) => {
 };
 
 module.exports = {
-    pool,
+    getPool,
     dbQuery,
     dbQueryOne,
     dbRun
