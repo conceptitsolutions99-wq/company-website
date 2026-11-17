@@ -1,190 +1,594 @@
 <!DOCTYPE html>
-<html lang="en">
+<% const isStatic = typeof staticPreview !== 'undefined' && staticPreview; %>
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>True Concept - Technology Solutions</title>
+    <title>True Concept — Software, Platforms &amp; Infrastructure</title>
+    <meta name="description" content="True Concept is a technology studio building custom software, web platforms, mobile apps, networks and security systems for ambitious businesses.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
-                <span class="logo-icon">◆</span>
-                True Concept
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="/">Home</a></li>
-                <li><a href="/services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
+
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="/" class="brand" aria-label="True Concept">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span class="brand-name">True Concept</span>
+        </a>
+
+        <nav class="nav-links" id="navLinks" aria-label="Primary">
+            <a href="#work" data-i18n="nav.work">Work</a>
+            <a href="#services" data-i18n="nav.services">Services</a>
+            <a href="#studio" data-i18n="nav.studio">Studio</a>
+            <a href="#brief" data-i18n="nav.brief">Start a project</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button class="lang-btn" id="langToggle" type="button" aria-label="Switch language">AR</button>
+            <% if (!isStatic) { %>
                 <% if (typeof user !== 'undefined' && user) { %>
-                    <% if (user.role === 'admin') { %>
-                        <li><a href="/admin/dashboard">Admin Dashboard</a></li>
-                    <% } else { %>
-                        <li><a href="/dashboard">Dashboard</a></li>
-                    <% } %>
-                    <li><a href="/api/auth/logout" class="btn btn-outline btn-sm">Logout</a></li>
+                    <a class="btn-ghost" href="<%= user.role === 'admin' ? '/admin/dashboard' : '/dashboard' %>" data-i18n="nav.dashboard">Dashboard</a>
                 <% } else { %>
-                    <li><a href="/login" class="btn btn-primary">Login</a></li>
-                    <li><a href="/register" class="btn btn-outline">Register</a></li>
+                    <a class="btn-ghost" href="/login" data-i18n="nav.login">Log in</a>
                 <% } %>
-            </ul>
-            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <% } %>
+            <a class="btn-solid" href="#brief" data-i18n="nav.start">Start a project</a>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-bg">
-            <div class="hero-shape shape-1"></div>
-            <div class="hero-shape shape-2"></div>
-            <div class="hero-shape shape-3"></div>
+        <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+        <div class="orbs" aria-hidden="true">
+            <div class="orb orb-a"></div>
+            <div class="orb orb-b"></div>
+            <div class="orb orb-c"></div>
+            <div class="orb-sphere"></div>
         </div>
-        <div class="container">
-            <div class="hero-content reveal">
-                <h1 class="hero-title">
-                    Building the <span class="gradient-text">Future</span> of<br>
-                    Enterprise Technology
-                </h1>
-                <p class="hero-subtitle">
-                    We deliver innovative technology solutions that transform businesses,
-                    accelerate growth, and drive digital excellence across industries.
+
+        <div class="wrap hero-inner">
+            <p class="eyebrow">
+                <span class="eyebrow-dot" aria-hidden="true"></span>
+                <span data-i18n="hero.kicker">Technology studio — since 2019</span>
+            </p>
+
+            <h1 class="display hero-type">
+                <span class="line" data-i18n="hero.l1">We design &amp; build</span>
+                <span class="line line-em"><em data-i18n="hero.l2">software</em></span>
+                <span class="line" data-i18n="hero.l3">that moves business.</span>
+            </h1>
+
+            <div class="hero-foot">
+                <p class="hero-sub" data-i18n="hero.sub">
+                    Custom software, web platforms, mobile apps, resilient networks and security
+                    systems — built for teams whose operations cannot afford to stand still.
                 </p>
-                <div class="hero-buttons">
-                    <a href="/services" class="btn btn-primary btn-lg">
-                        Browse Services
-                        <span class="btn-arrow">→</span>
+                <div class="hero-cta">
+                    <a href="#brief" class="btn-solid btn-lg">
+                        <span data-i18n="hero.cta1">Start a project</span>
+                        <span class="arrow" aria-hidden="true">↗</span>
                     </a>
-                    <% if (typeof user !== 'undefined' && user) { %>
-                        <a href="<%= user.role === 'admin' ? '/admin/dashboard' : '/dashboard' %>" class="btn btn-outline btn-lg">
-                            My Dashboard
-                        </a>
-                    <% } else { %>
-                        <a href="/register" class="btn btn-outline btn-lg">
-                            Get Started
-                        </a>
-                    <% } %>
+                    <a href="#services" class="btn-outline btn-lg" data-i18n="hero.cta2">See what we build</a>
                 </div>
             </div>
         </div>
+
+        <div class="hero-badge" aria-hidden="true">
+            <span data-i18n="hero.badge">Est. 2019</span>
+        </div>
     </section>
 
-    <!-- Services Preview Section -->
-    <section class="services-preview" id="services">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-label">Services</span>
-                <h2 class="section-title">What We Offer</h2>
-                <p class="section-desc">
-                    Choose from our comprehensive range of technology services tailored to your business needs.
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span data-i18n="svc.1.name">Custom software</span><i>✳</i>
+            <span data-i18n="svc.2.name">Web platforms</span><i>✳</i>
+            <span data-i18n="svc.3.name">Mobile apps</span><i>✳</i>
+            <span data-i18n="svc.4.name">Cloud &amp; infrastructure</span><i>✳</i>
+            <span data-i18n="svc.5.name">Networks</span><i>✳</i>
+            <span data-i18n="svc.6.name">CCTV &amp; security</span><i>✳</i>
+            <span data-i18n="svc.1.name">Custom software</span><i>✳</i>
+            <span data-i18n="svc.2.name">Web platforms</span><i>✳</i>
+            <span data-i18n="svc.3.name">Mobile apps</span><i>✳</i>
+            <span data-i18n="svc.4.name">Cloud &amp; infrastructure</span><i>✳</i>
+            <span data-i18n="svc.5.name">Networks</span><i>✳</i>
+            <span data-i18n="svc.6.name">CCTV &amp; security</span><i>✳</i>
+        </div>
+    </div>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="section services" id="services">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="label" data-i18n="services.label">What we do</p>
+                <h2 class="h2">
+                    <span data-i18n="services.title">Six disciplines,</span><br>
+                    <span class="muted" data-i18n="services.title2">one team.</span>
+                </h2>
+                <p class="lede" data-i18n="services.lede">
+                    We keep the strategy, the design and the engineering in the same room, so
+                    nothing gets lost between the brief and the build.
                 </p>
             </div>
-            <div class="services-grid">
-                <div class="service-card reveal">
-                    <div class="service-icon">📱</div>
-                    <h3>Mobile App Development</h3>
-                    <p>Native and cross-platform mobile applications for iOS and Android.</p>
-                </div>
-                <div class="service-card reveal delay-1">
-                    <div class="service-icon">🌐</div>
-                    <h3>Web Development</h3>
-                    <p>Modern, responsive websites built with the latest technologies.</p>
-                </div>
-                <div class="service-card reveal delay-2">
-                    <div class="service-icon">💻</div>
-                    <h3>Custom Software Development</h3>
-                    <p>Tailored enterprise solutions built to your specifications.</p>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-icon">📹</div>
-                    <h3>CCTV Installation</h3>
-                    <p>Professional surveillance system setup and configuration.</p>
-                </div>
-                <div class="service-card reveal delay-1">
-                    <div class="service-icon">🔗</div>
-                    <h3>Network Solutions</h3>
-                    <p>Network infrastructure design and optimization.</p>
-                </div>
-            </div>
-            <div class="section-cta reveal delay-2">
-                <p>Ready to request a service?</p>
-                <a href="/services" class="btn btn-primary">View All Services</a>
+
+            <ol class="service-list">
+                <li class="service-row">
+                    <span class="service-num">01</span>
+                    <div class="service-body">
+                        <h3 data-i18n="svc.1.name">Custom software</h3>
+                        <p data-i18n="svc.1.desc">Enterprise systems, internal tools and integrations shaped around the way your business actually runs.</p>
+                    </div>
+                    <span class="service-arrow" aria-hidden="true">↗</span>
+                </li>
+                <li class="service-row">
+                    <span class="service-num">02</span>
+                    <div class="service-body">
+                        <h3 data-i18n="svc.2.name">Web platforms</h3>
+                        <p data-i18n="svc.2.desc">Fast, accessible websites and web applications built on modern stacks and engineered to last.</p>
+                    </div>
+                    <span class="service-arrow" aria-hidden="true">↗</span>
+                </li>
+                <li class="service-row">
+                    <span class="service-num">03</span>
+                    <div class="service-body">
+                        <h3 data-i18n="svc.3.name">Mobile apps</h3>
+                        <p data-i18n="svc.3.desc">Native and cross-platform apps for iOS and Android, from first prototype through to store release.</p>
+                    </div>
+                    <span class="service-arrow" aria-hidden="true">↗</span>
+                </li>
+                <li class="service-row">
+                    <span class="service-num">04</span>
+                    <div class="service-body">
+                        <h3 data-i18n="svc.4.name">Cloud &amp; infrastructure</h3>
+                        <p data-i18n="svc.4.desc">Migration, hosting and managed infrastructure that scales without nasty surprises on the invoice.</p>
+                    </div>
+                    <span class="service-arrow" aria-hidden="true">↗</span>
+                </li>
+                <li class="service-row">
+                    <span class="service-num">05</span>
+                    <div class="service-body">
+                        <h3 data-i18n="svc.5.name">Networks</h3>
+                        <p data-i18n="svc.5.desc">Design, installation and maintenance of reliable office, branch and site networks.</p>
+                    </div>
+                    <span class="service-arrow" aria-hidden="true">↗</span>
+                </li>
+                <li class="service-row">
+                    <span class="service-num">06</span>
+                    <div class="service-body">
+                        <h3 data-i18n="svc.6.name">CCTV &amp; security</h3>
+                        <p data-i18n="svc.6.desc">Surveillance, access control and security hardening for your premises and your data.</p>
+                    </div>
+                    <span class="service-arrow" aria-hidden="true">↗</span>
+                </li>
+            </ol>
+
+            <div class="services-foot">
+                <a href="/services" class="btn-outline">
+                    <span data-i18n="services.cta">Browse the service catalogue</span>
+                    <span class="arrow" aria-hidden="true">→</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section" id="contact">
-        <div class="container">
-            <div class="cta-content reveal">
-                <h2>Ready to Get Started?</h2>
-                <% if (typeof user !== 'undefined' && user) { %>
-                    <p>Explore our wide range of services or manage your existing requests.</p>
-                    <div class="cta-buttons">
-                        <a href="/services" class="btn btn-primary btn-lg">Browse Services</a>
-                        <a href="<%= user.role === 'admin' ? '/admin/dashboard' : '/dashboard' %>" class="btn btn-outline btn-lg">My Dashboard</a>
+    <!-- ============ WORK ============ -->
+    <section class="section work" id="work">
+        <div class="wrap">
+            <div class="section-head section-head-dark">
+                <p class="label" data-i18n="work.label">Selected work</p>
+                <h2 class="h2">
+                    <span data-i18n="work.title">Shipped, running,</span><br>
+                    <span class="muted" data-i18n="work.title2">still working.</span>
+                </h2>
+                <p class="lede" data-i18n="work.lede">
+                    Eight products in production today — for a Canadian loyalty programme, an
+                    online store, a delivery app, an HR team and a property agency. Every link
+                    opens the live build.
+                </p>
+            </div>
+
+            <div class="work-grid">
+                <a class="work-card" href="https://scene-plus.vercel.app/app.html" target="_blank" rel="noopener">
+                    <div class="work-art art-1" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
                     </div>
-                <% } else { %>
-                    <p>Create an account today and start requesting the services you need.</p>
-                    <div class="cta-buttons">
-                        <a href="/register" class="btn btn-primary btn-lg">Create Account</a>
-                        <a href="/login" class="btn btn-outline btn-lg">Already have an account?</a>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.1.tag">Client portal</span>
+                        <span class="work-stack">Next.js · Node</span>
+                    </div>
+                    <h3 data-i18n="work.1.name">Scene+ corporate portal</h3>
+                    <p data-i18n="work.1.desc">A login-gated portal where partners self-manage their offers while agents get read-only visibility.</p>
+                </a>
+
+                <a class="work-card" href="https://fashion-seven-fawn.vercel.app/" target="_blank" rel="noopener">
+                    <div class="work-art art-2" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
+                    </div>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.2.tag">E-commerce</span>
+                        <span class="work-stack">React</span>
+                    </div>
+                    <h3 data-i18n="work.2.name">Your Fashionista</h3>
+                    <p data-i18n="work.2.desc">A clothing store with filters, product pages, a cart and customer reviews.</p>
+                </a>
+
+                <a class="work-card" href="https://yalla-shop-umber.vercel.app/" target="_blank" rel="noopener">
+                    <div class="work-art art-3" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
+                    </div>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.3.tag">Delivery</span>
+                        <span class="work-stack">React · Node</span>
+                    </div>
+                    <h3 data-i18n="work.3.name">Yalla Shop</h3>
+                    <p data-i18n="work.3.desc">An on-demand delivery app for groceries, pharmacy, food and parcels.</p>
+                </a>
+
+                <a class="work-card" href="https://company-website-n9ba.vercel.app/" target="_blank" rel="noopener">
+                    <div class="work-art art-4" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
+                    </div>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.4.tag">Platform</span>
+                        <span class="work-stack">Express · SQL</span>
+                    </div>
+                    <h3 data-i18n="work.4.name">True Concept platform</h3>
+                    <p data-i18n="work.4.desc">The site you are on: accounts, a service catalogue and request tracking for clients and admins.</p>
+                </a>
+
+                <a class="work-card" href="https://hr-system-blush-chi.vercel.app/" target="_blank" rel="noopener">
+                    <div class="work-art art-5" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
+                    </div>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.5.tag">Internal tool</span>
+                        <span class="work-stack">Next.js · SQL</span>
+                    </div>
+                    <h3 data-i18n="work.5.name">HR system</h3>
+                    <p data-i18n="work.5.desc">A human-resources tool covering staff records, leave and internal workflows.</p>
+                </a>
+
+                <a class="work-card" href="https://real-estate-indol-six-17.vercel.app/" target="_blank" rel="noopener">
+                    <div class="work-art art-6" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
+                    </div>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.6.tag">Real estate</span>
+                        <span class="work-stack">Next.js</span>
+                    </div>
+                    <h3 data-i18n="work.6.name">Future Homes</h3>
+                    <p data-i18n="work.6.desc">A property site with listings and lead capture for buyers and sellers.</p>
+                </a>
+
+                <a class="work-card" href="https://al-ahli-al-masry.vercel.app/" target="_blank" rel="noopener">
+                    <div class="work-art art-1" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
+                    </div>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.7.tag">Web project</span>
+                        <span class="work-stack">Web</span>
+                    </div>
+                    <h3 data-i18n="work.7.name">Al Ahli Al Masry</h3>
+                    <p data-i18n="work.7.desc">A live corporate web project, built and deployed end to end.</p>
+                </a>
+
+                <a class="work-card" href="https://omnisales-git-main-seif-eb3a.vercel.app/" target="_blank" rel="noopener">
+                    <div class="work-art art-2" aria-hidden="true">
+                        <span class="art-ring"></span>
+                        <span class="art-grid"></span>
+                    </div>
+                    <div class="work-meta">
+                        <span class="work-tag" data-i18n="work.8.tag">Sales app</span>
+                        <span class="work-stack">React</span>
+                    </div>
+                    <h3 data-i18n="work.8.name">OmniSales</h3>
+                    <p data-i18n="work.8.desc">A sales web application built and deployed for a business team.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ STUDIO ============ -->
+    <section class="section studio" id="studio">
+        <div class="wrap studio-grid">
+            <div class="studio-copy">
+                <p class="label label-light" data-i18n="studio.label">The studio</p>
+                <h2 class="h2 h2-light">
+                    <span data-i18n="studio.title">We are the technical partner</span>
+                    <span class="muted-light" data-i18n="studio.title2">behind the operations.</span>
+                </h2>
+                <p class="studio-p" data-i18n="studio.p1">
+                    Since 2019 we have been helping businesses put technology to work — replacing
+                    spreadsheets with systems, paper with platforms, and guesswork with data.
+                </p>
+                <p class="studio-p" data-i18n="studio.p2">
+                    Our mission is simple: build software that removes friction from the way our
+                    clients work, then stay long enough to keep it that way.
+                </p>
+                <a href="#brief" class="btn-light">
+                    <span data-i18n="studio.cta">Work with us</span>
+                    <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-num">5+</span>
+                    <span class="stat-label" data-i18n="stat.1">Years in business</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">150+</span>
+                    <span class="stat-label" data-i18n="stat.2">Projects delivered</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">50+</span>
+                    <span class="stat-label" data-i18n="stat.3">Clients served</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">24/7</span>
+                    <span class="stat-label" data-i18n="stat.4">Support coverage</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="section process">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="label" data-i18n="process.label">How it runs</p>
+                <h2 class="h2">
+                    <span data-i18n="process.title">Three steps,</span>
+                    <span class="muted" data-i18n="process.title2">no theatre.</span>
+                </h2>
+            </div>
+
+            <div class="process-grid">
+                <div class="process-card">
+                    <span class="process-num">01</span>
+                    <h3 data-i18n="process.1.name">Discovery</h3>
+                    <p data-i18n="process.1.desc">We map how the business actually works today, agree what success looks like, and write it down.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-num">02</span>
+                    <h3 data-i18n="process.2.name">Design &amp; build</h3>
+                    <p data-i18n="process.2.desc">Weekly working software, not slide decks. You see progress in the product as it is built.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-num">03</span>
+                    <h3 data-i18n="process.3.name">Launch &amp; support</h3>
+                    <p data-i18n="process.3.desc">We handle rollout, training and monitoring — and stay on for maintenance and the next phase.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="section quotes">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="label" data-i18n="quotes.label">Client voices</p>
+                <h2 class="h2">
+                    <span data-i18n="quotes.title">What it's like</span>
+                    <span class="muted" data-i18n="quotes.title2">to work with us.</span>
+                </h2>
+            </div>
+
+            <div class="quote-grid">
+                <figure class="quote">
+                    <blockquote data-i18n="quotes.1.text">
+                        True Concept transformed our entire digital infrastructure. The team was
+                        professional, responsive, and delivered beyond our expectations.
+                    </blockquote>
+                    <figcaption>
+                        <span class="avatar">SK</span>
+                        <span>
+                            <strong>Sarah Kim</strong>
+                            <em data-i18n="quotes.1.role">CEO, Innovate Labs</em>
+                        </span>
+                    </figcaption>
+                </figure>
+
+                <figure class="quote">
+                    <blockquote data-i18n="quotes.2.text">
+                        Working with True Concept was a game-changer. Their custom software
+                        streamlined our operations and lifted productivity by 40%.
+                    </blockquote>
+                    <figcaption>
+                        <span class="avatar">MR</span>
+                        <span>
+                            <strong>Michael Roberts</strong>
+                            <em data-i18n="quotes.2.role">CTO, FinServe Global</em>
+                        </span>
+                    </figcaption>
+                </figure>
+
+                <figure class="quote">
+                    <blockquote data-i18n="quotes.3.text">
+                        Their expertise in cloud and networking helped us migrate seamlessly, and
+                        the ongoing support has been exceptional throughout.
+                    </blockquote>
+                    <figcaption>
+                        <span class="avatar">EJ</span>
+                        <span>
+                            <strong>Emily Johnson</strong>
+                            <em data-i18n="quotes.3.role">VP Operations, TechFlow</em>
+                        </span>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ BRIEF ============ -->
+    <section class="section brief" id="brief">
+        <div class="wrap brief-grid">
+            <div class="brief-copy">
+                <p class="label label-light" data-i18n="brief.label">Start a project</p>
+                <h2 class="h2 h2-light">
+                    <span data-i18n="brief.title">Tell us what</span>
+                    <span class="muted-light" data-i18n="brief.title2">needs building.</span>
+                </h2>
+                <p class="studio-p" data-i18n="brief.lede">
+                    Three quick questions and we will come back with a plan, a rough budget and
+                    the next step. No sales script.
+                </p>
+
+                <ul class="brief-points">
+                    <li><span aria-hidden="true">✳</span><span data-i18n="brief.point1">A reply within one working day</span></li>
+                    <li><span aria-hidden="true">✳</span><span data-i18n="brief.point2">A named engineer on the first call</span></li>
+                    <li><span aria-hidden="true">✳</span><span data-i18n="brief.point3">Fixed-scope estimate before any code</span></li>
+                </ul>
+            </div>
+
+            <form class="brief-card" id="briefForm" novalidate>
+                <div class="brief-progress" aria-hidden="true">
+                    <span class="bar is-on"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+
+                <!-- Step 1 -->
+                <fieldset class="brief-step is-active" data-step="1">
+                    <legend class="brief-q" data-i18n="brief.q1">What do you need?</legend>
+                    <div class="chips" data-group="service">
+                        <button type="button" class="chip" data-i18n="svc.1.name">Custom software</button>
+                        <button type="button" class="chip" data-i18n="svc.2.name">Web platforms</button>
+                        <button type="button" class="chip" data-i18n="svc.3.name">Mobile apps</button>
+                        <button type="button" class="chip" data-i18n="svc.4.name">Cloud &amp; infrastructure</button>
+                        <button type="button" class="chip" data-i18n="svc.5.name">Networks</button>
+                        <button type="button" class="chip" data-i18n="svc.6.name">CCTV &amp; security</button>
+                    </div>
+                    <p class="brief-error" data-error-for="1" role="alert"></p>
+                    <div class="brief-actions">
+                        <button type="button" class="btn-solid btn-full" data-next="2">
+                            <span data-i18n="brief.next">Continue</span>
+                            <span class="arrow" aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </fieldset>
+
+                <!-- Step 2 -->
+                <fieldset class="brief-step" data-step="2">
+                    <legend class="brief-q" data-i18n="brief.q2">Budget &amp; timing</legend>
+                    <p class="brief-mini" data-i18n="brief.budget">Rough budget</p>
+                    <div class="chips" data-group="budget">
+                        <button type="button" class="chip" data-i18n="brief.b1">Under $10k</button>
+                        <button type="button" class="chip" data-i18n="brief.b2">$10k – $25k</button>
+                        <button type="button" class="chip" data-i18n="brief.b3">$25k – $60k</button>
+                        <button type="button" class="chip" data-i18n="brief.b4">$60k+</button>
+                    </div>
+                    <p class="brief-mini" data-i18n="brief.when">When should it start?</p>
+                    <div class="chips" data-group="timing">
+                        <button type="button" class="chip" data-i18n="brief.t1">As soon as possible</button>
+                        <button type="button" class="chip" data-i18n="brief.t2">This quarter</button>
+                        <button type="button" class="chip" data-i18n="brief.t3">Just exploring</button>
+                    </div>
+                    <p class="brief-error" data-error-for="2" role="alert"></p>
+                    <div class="brief-actions brief-actions-split">
+                        <button type="button" class="btn-ghost btn-full" data-back="1" data-i18n="brief.back">Back</button>
+                        <button type="button" class="btn-solid btn-full" data-next="3">
+                            <span data-i18n="brief.next">Continue</span>
+                            <span class="arrow" aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </fieldset>
+
+                <!-- Step 3 -->
+                <fieldset class="brief-step" data-step="3">
+                    <legend class="brief-q" data-i18n="brief.q3">Where do we send the plan?</legend>
+                    <label class="field">
+                        <span data-i18n="brief.name">Your name</span>
+                        <input type="text" name="name" id="briefName" autocomplete="name" required minlength="2" placeholder="Sara Ahmed">
+                    </label>
+                    <label class="field">
+                        <span data-i18n="brief.email">Email</span>
+                        <input type="email" name="email" id="briefEmail" autocomplete="email" required placeholder="sara@company.com">
+                    </label>
+                    <label class="field">
+                        <span data-i18n="brief.about">Anything else?</span>
+                        <textarea name="message" id="briefMessage" rows="3" data-i18n-placeholder="brief.ph" placeholder="A sentence or two about the problem…"></textarea>
+                    </label>
+                    <p class="brief-error" data-error-for="3" role="alert"></p>
+                    <div class="brief-actions brief-actions-split">
+                        <button type="button" class="btn-ghost btn-full" data-back="2" data-i18n="brief.back">Back</button>
+                        <button type="submit" class="btn-solid btn-full">
+                            <span data-i18n="brief.send">Send the brief</span>
+                            <span class="arrow" aria-hidden="true">↗</span>
+                        </button>
+                    </div>
+                    <p class="brief-fine" data-i18n="brief.fine">
+                        Opens your email app with the brief filled in — nothing is stored on this site.
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+    </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+    <div class="wrap">
+        <div class="footer-top">
+            <a href="/" class="footer-wordmark">True Concept</a>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <h4 data-i18n="footer.sitemap">Site</h4>
+                    <a href="#work" data-i18n="nav.work">Work</a>
+                    <a href="#services" data-i18n="nav.services">Services</a>
+                    <a href="#studio" data-i18n="nav.studio">Studio</a>
+                    <a href="#brief" data-i18n="nav.brief">Start a project</a>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="footer.services">Services</h4>
+                    <a href="/services" data-i18n="svc.1.name">Custom software</a>
+                    <a href="/services" data-i18n="svc.2.name">Web platforms</a>
+                    <a href="/services" data-i18n="svc.3.name">Mobile apps</a>
+                    <a href="/services" data-i18n="svc.6.name">CCTV &amp; security</a>
+                </div>
+                <% if (!isStatic) { %>
+                    <div class="footer-col">
+                        <h4 data-i18n="footer.account">Account</h4>
+                        <a href="/login" data-i18n="nav.login">Log in</a>
+                        <a href="/register" data-i18n="footer.register">Create an account</a>
+                        <a href="/dashboard" data-i18n="nav.dashboard">Dashboard</a>
                     </div>
                 <% } %>
+                <div class="footer-col">
+                    <h4 data-i18n="footer.contact">Contact</h4>
+                    <a href="mailto:hello@trueconcept.com">hello@trueconcept.com</a>
+                    <a href="tel:+15551234567">+1 (555) 123-4567</a>
+                    <span data-i18n="footer.city">San Francisco, CA</span>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <span class="logo-icon">◆</span>
-                        True Concept
-                    </a>
-                    <p>Delivering innovative technology solutions for modern businesses.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/services">Services</a></li>
-                        <li><a href="/login">Login</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="/services">Mobile Apps</a></li>
-                        <li><a href="/services">Web Development</a></li>
-                        <li><a href="/services">Network Solutions</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li>hello@trueconcept.com</li>
-                        <li>+1 (555) 123-4567</li>
-                        <li>San Francisco, CA</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 True Concept. All rights reserved.</p>
-            </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year">2026</span> True Concept. <span data-i18n="footer.rights">All rights reserved.</span></p>
+            <p data-i18n="footer.built">Strategy · Design · Engineering</p>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="/js/app.js"></script>
+<script src="/js/home.js"></script>
 </body>
 </html>
