@@ -32,13 +32,6 @@
 
         <div class="nav-actions">
             <button class="lang-btn" id="langToggle" type="button" aria-label="Switch language">AR</button>
-            <% if (!isStatic) { %>
-                <% if (typeof user !== 'undefined' && user) { %>
-                    <a class="btn-ghost" href="<%= user.role === 'admin' ? '/admin/dashboard' : '/dashboard' %>" data-i18n="nav.dashboard">Dashboard</a>
-                <% } else { %>
-                    <a class="btn-ghost" href="/login" data-i18n="nav.login">Log in</a>
-                <% } %>
-            <% } %>
             <a class="btn-solid" href="#brief" data-i18n="nav.start">Start a project</a>
         </div>
 
@@ -202,9 +195,8 @@
 
             <div class="work-grid">
                 <a class="work-card" href="https://scene-plus.vercel.app/app.html" target="_blank" rel="noopener">
-                    <div class="work-art art-1" aria-hidden="true">
-                        <span class="art-ring"></span>
-                        <span class="art-grid"></span>
+                    <div class="work-art art-1">
+                        <img src="/images/work/scene-plus.jpg" alt="Scene+ partner and agent offers portal sign-in screen" width="1440" height="900" loading="lazy">
                     </div>
                     <div class="work-meta">
                         <span class="work-tag" data-i18n="work.1.tag">Client portal</span>
@@ -215,9 +207,8 @@
                 </a>
 
                 <a class="work-card" href="https://fashion-seven-fawn.vercel.app/" target="_blank" rel="noopener">
-                    <div class="work-art art-2" aria-hidden="true">
-                        <span class="art-ring"></span>
-                        <span class="art-grid"></span>
+                    <div class="work-art art-2">
+                        <img src="/images/work/your-fashionista.jpg" alt="Your Fashionista storefront homepage" width="1440" height="900" loading="lazy">
                     </div>
                     <div class="work-meta">
                         <span class="work-tag" data-i18n="work.2.tag">E-commerce</span>
@@ -228,9 +219,8 @@
                 </a>
 
                 <a class="work-card" href="https://yalla-shop-umber.vercel.app/" target="_blank" rel="noopener">
-                    <div class="work-art art-3" aria-hidden="true">
-                        <span class="art-ring"></span>
-                        <span class="art-grid"></span>
+                    <div class="work-art art-3">
+                        <img src="/images/work/yalla-shop.jpg" alt="Yalla Shop delivery app homepage" width="1440" height="900" loading="lazy">
                     </div>
                     <div class="work-meta">
                         <span class="work-tag" data-i18n="work.3.tag">Delivery</span>
@@ -241,9 +231,8 @@
                 </a>
 
                 <a class="work-card" href="https://company-website-n9ba.vercel.app/" target="_blank" rel="noopener">
-                    <div class="work-art art-4" aria-hidden="true">
-                        <span class="art-ring"></span>
-                        <span class="art-grid"></span>
+                    <div class="work-art art-4">
+                        <img src="/images/work/true-concept.jpg" alt="True Concept studio homepage" width="1440" height="900" loading="lazy">
                     </div>
                     <div class="work-meta">
                         <span class="work-tag" data-i18n="work.4.tag">Platform</span>
@@ -254,9 +243,8 @@
                 </a>
 
                 <a class="work-card" href="https://hr-system-blush-chi.vercel.app/" target="_blank" rel="noopener">
-                    <div class="work-art art-5" aria-hidden="true">
-                        <span class="art-ring"></span>
-                        <span class="art-grid"></span>
+                    <div class="work-art art-5">
+                        <img src="/images/work/hr-system.jpg" alt="HR system dashboard with staff and payroll figures" width="1440" height="900" loading="lazy">
                     </div>
                     <div class="work-meta">
                         <span class="work-tag" data-i18n="work.5.tag">Internal tool</span>
@@ -267,9 +255,8 @@
                 </a>
 
                 <a class="work-card" href="https://real-estate-indol-six-17.vercel.app/" target="_blank" rel="noopener">
-                    <div class="work-art art-6" aria-hidden="true">
-                        <span class="art-ring"></span>
-                        <span class="art-grid"></span>
+                    <div class="work-art art-6">
+                        <img src="/images/work/future-homes.jpg" alt="Future Homes property website homepage" width="1440" height="900" loading="lazy">
                     </div>
                     <div class="work-meta">
                         <span class="work-tag" data-i18n="work.6.tag">Real estate</span>
@@ -538,7 +525,7 @@
                         </button>
                     </div>
                     <p class="brief-fine" data-i18n="brief.fine">
-                        Opens your email app with the brief filled in — nothing is stored on this site.
+                        Sent straight to our inbox — nothing is stored on this site.
                     </p>
                 </fieldset>
             </form>
@@ -566,17 +553,9 @@
                     <a href="/services" data-i18n="svc.3.name">Mobile apps</a>
                     <a href="/services" data-i18n="svc.6.name">CCTV &amp; security</a>
                 </div>
-                <% if (!isStatic) { %>
-                    <div class="footer-col">
-                        <h4 data-i18n="footer.account">Account</h4>
-                        <a href="/login" data-i18n="nav.login">Log in</a>
-                        <a href="/register" data-i18n="footer.register">Create an account</a>
-                        <a href="/dashboard" data-i18n="nav.dashboard">Dashboard</a>
-                    </div>
-                <% } %>
                 <div class="footer-col">
                     <h4 data-i18n="footer.contact">Contact</h4>
-                    <a href="mailto:hello@trueconcept.com">hello@trueconcept.com</a>
+                    <a href="mailto:conceptitsolutions99@gmail.com">conceptitsolutions99@gmail.com</a>
                     <a href="tel:+15551234567">+1 (555) 123-4567</a>
                     <span data-i18n="footer.city">San Francisco, CA</span>
                 </div>

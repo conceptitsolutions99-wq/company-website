@@ -19,17 +19,6 @@
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/services" class="active">Services</a></li>
-                <% if (typeof user !== 'undefined' && user) { %>
-                    <% if (user.role === 'admin') { %>
-                        <li><a href="/admin/dashboard">Admin Dashboard</a></li>
-                    <% } else { %>
-                        <li><a href="/dashboard">Dashboard</a></li>
-                    <% } %>
-                    <li><a href="/api/auth/logout" class="btn btn-outline btn-sm">Logout</a></li>
-                <% } else { %>
-                    <li><a href="/login" class="btn btn-primary btn-sm">Login</a></li>
-                    <li><a href="/register" class="btn btn-outline btn-sm">Register</a></li>
-                <% } %>
             </ul>
         </div>
     </nav>
@@ -67,15 +56,9 @@
                                         <span class="price-label">Starting from</span>
                                         <span class="price-value">EGP <%= service.price.toLocaleString() %></span>
                                     </div>
-                                    <% if (typeof user !== 'undefined' && user) { %>
-                                        <a href="/request/<%= service.id %>" class="btn btn-primary">
-                                            Request Service
-                                        </a>
-                                    <% } else { %>
-                                        <a href="/login?redirect=/request/<%= service.id %>" class="btn btn-outline">
-                                            Login to Request
-                                        </a>
-                                    <% } %>
+                                    <a href="/request/<%= service.id %>" class="btn btn-primary">
+                                        Request Service
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -83,14 +66,12 @@
                 </div>
             <% } else { %>
                 <div class="empty-state">
-                    <div class="empty-icon">🔧</div>
+                    <div class="empty-icon">◆</div>
                     <h3>No Services Available</h3>
-                    <p>Check back soon for our service offerings.</p>
+                    <p>Email us at <a href="mailto:<%= contactEmail %>"><%= contactEmail %></a> and we will pick it up from there.</p>
                 </div>
             <% } %>
         </div>
     </section>
-
-    <script src="/js/app.js"></script>
 </body>
 </html>

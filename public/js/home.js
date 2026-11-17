@@ -169,6 +169,19 @@
         ar: { subject: 'موجز مشروع', service: 'الخدمات', budget: 'الميزانية', timing: 'التوقيت' }
     };
 
+    var SENT = {
+        en: {
+            sending: 'Sending…',
+            title: 'Brief sent',
+            body: 'Thanks — it is in our inbox. We will reply within one working day.'
+        },
+        ar: {
+            sending: 'جارٍ الإرسال…',
+            title: 'تم إرسال الموجز',
+            body: 'شكرًا — وصلنا طلبك وسنرد عليه خلال يوم عمل واحد.'
+        }
+    };
+
     function lang() {
         return html.getAttribute('lang') === 'ar' ? 'ar' : 'en';
     }
@@ -343,17 +356,82 @@
         clearErrors();
 
         var copy = MAIL[lang()];
-        var body = [
-            copy.service + ': ' + answers('service').join(', '),
-            copy.budget + ': ' + answers('budget').join(', '),
-            copy.timing + ': ' + answers('timing').join(', '),
-            '',
-            name + ' <' + email + '>',
-            message
-        ].join('\n');
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var submitLabel = submitBtn ? submitBtn.innerHTML : '';
 
-        window.location.href = 'mailto:hello@trueconcept.com' +
-            '?subject=' + encodeURIComponent(copy.subject) +
-            '&body=' + encodeURIComponent(body);
+        var restore = function () {
+            if (!submitBtn) return;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = submitLabel;
+        };
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = SENT[lang()].sending;
+        }
+
+        fetch('/api/enquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                type: 'brief',
+                name: name,
+                email: email,
+                service: answers('service').join(', '),
+                budget: answers('budget').join(', '),
+                timing: answers('timing').join(', '),
+                message: message
+            })
+        })
+            .then(function (response) {
+                return response.json().catch(function () { return {}; }).then(function (data) {
+                    if (!response.ok) {
+                        var error = new Error('not sent');
+                        error.status = response.status;
+                        error.data = data;
+                        throw error;
+                    }
+                    return data;
+                });
+            })
+            .then(function () {
+                var done = document.createElement('div');
+                done.className = 'brief-done';
+                done.setAttribute('role', 'status');
+
+                var heading = document.createElement('h3');
+                heading.textContent = SENT[lang()].title;
+
+                var line = document.createElement('p');
+                line.textContent = SENT[lang()].body;
+
+                done.appendChild(heading);
+                done.appendChild(line);
+                form.innerHTML = '';
+                form.appendChild(done);
+            })
+            .catch(function (error) {
+                restore();
+
+                /* The server answered but refused (e.g. mail not configured yet). */
+                if (error && error.status) {
+                    showError(3, (error.data && error.data.error) || ERROR[lang()].fields);
+                    return;
+                }
+
+                /* No API at all (static preview): hand the brief to the email app. */
+                var body = [
+                    copy.service + ': ' + answers('service').join(', '),
+                    copy.budget + ': ' + answers('budget').join(', '),
+                    copy.timing + ': ' + answers('timing').join(', '),
+                    '',
+                    name + ' <' + email + '>',
+                    message
+                ].join('\n');
+
+                window.location.href = 'mailto:conceptitsolutions99@gmail.com' +
+                    '?subject=' + encodeURIComponent(copy.subject) +
+                    '&body=' + encodeURIComponent(body);
+            });
     });
 })();

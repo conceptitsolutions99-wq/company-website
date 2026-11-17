@@ -1,10 +1,10 @@
 /**
  * Builds the static preview at the repo root (used by GitHub Pages).
  *
- * GitHub Pages serves a single index.html, so the stylesheet and script are
- * inlined and server-only links (login, register, dashboard) are dropped.
- * Regenerate after editing views/index.ejs, public/css/home.css or
- * public/js/home.js:
+ * GitHub Pages serves a single index.html, so the stylesheet, script and the
+ * work screenshots are all inlined.
+ * Regenerate after editing views/index.ejs, public/css/home.css,
+ * public/js/home.js or public/images/work/*:
  *
  *     npm run build:static
  */
@@ -19,7 +19,7 @@ const template = read('views/index.ejs');
 const css = read('public/css/home.css');
 const js = read('public/js/home.js');
 
-let html = ejs.render(template, { user: null, staticPreview: true });
+let html = ejs.render(template, { staticPreview: true });
 
 // Server routes do not exist on a static host — point them at the section.
 html = html.split('href="/services"').join('href="#services"');
@@ -33,6 +33,17 @@ if (!html.includes(styleTag) || !html.includes(scriptTag)) {
 
 html = html.replace(styleTag, '<style>\n' + css + '\n</style>');
 html = html.replace(scriptTag, '<script>\n' + js + '\n</script>');
+
+// Inline work screenshots: the preview is a single file, so nothing can 404.
+html = html.replace(/src="(\/images\/work\/[^"]+)"/g, (match, src) => {
+    const file = path.join(root, 'public', src.replace(/^\//, ''));
+    if (!fs.existsSync(file)) {
+        throw new Error('Missing image referenced by views/index.ejs: ' + src);
+    }
+    const mime = /\.jpe?g$/i.test(file) ? 'image/jpeg' : 'image/png';
+    const base64 = fs.readFileSync(file).toString('base64');
+    return 'src="data:' + mime + ';base64,' + base64 + '"';
+});
 
 html = html.replace(
     '<!DOCTYPE html>',
