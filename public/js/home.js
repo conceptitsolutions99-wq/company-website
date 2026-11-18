@@ -11,6 +11,21 @@
 (function () {
     'use strict';
 
+    /* One POST path for both enquiry forms: resolves on success, rejects with
+       the server's message otherwise. */
+    window.tcSendEnquiry = function (payload) {
+        return fetch('/api/enquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            return response.json().catch(function () { return {}; }).then(function (data) {
+                if (!response.ok) throw new Error(data.error || 'Could not send your message.');
+                return data;
+            });
+        });
+    };
+
     var LANG_KEY = 'language';
     var html = document.documentElement;
 
@@ -409,45 +424,38 @@
         }
         clearErrors();
 
-        var copy = MAIL[lang()];
-        var submitBtn = form.querySelector('button[type="submit"]');
-        var submitLabel = submitBtn ? submitBtn.innerHTML : '';
+        /* The static preview has no server: hand the brief to the email app. */
+        if (window.TC_STATIC) {
+            var copy = MAIL[lang()];
+            var body = [
+                copy.service + ': ' + answers('service').join(', '),
+                copy.budget + ': ' + answers('budget').join(', '),
+                copy.timing + ': ' + answers('timing').join(', '),
+                '',
+                name + ' <' + email + '>',
+                message
+            ].join('\n');
 
-        var restore = function () {
-            if (!submitBtn) return;
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = submitLabel;
-        };
-
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = SENT[lang()].sending;
+            window.location.href = 'mailto:conceptitsolutions99@gmail.com' +
+                '?subject=' + encodeURIComponent(copy.subject) +
+                '&body=' + encodeURIComponent(body);
+            return;
         }
 
-        fetch('/api/enquiry', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                type: 'brief',
-                name: name,
-                email: email,
-                service: answers('service').join(', '),
-                budget: answers('budget').join(', '),
-                timing: answers('timing').join(', '),
-                message: message
-            })
+        var button = form.querySelector('button[type="submit"]');
+        var label = button.innerHTML;
+        button.disabled = true;
+        button.textContent = SENT[lang()].sending;
+
+        window.tcSendEnquiry({
+            type: 'brief',
+            name: name,
+            email: email,
+            service: answers('service').join(', '),
+            budget: answers('budget').join(', '),
+            timing: answers('timing').join(', '),
+            message: message
         })
-            .then(function (response) {
-                return response.json().catch(function () { return {}; }).then(function (data) {
-                    if (!response.ok) {
-                        var error = new Error('not sent');
-                        error.status = response.status;
-                        error.data = data;
-                        throw error;
-                    }
-                    return data;
-                });
-            })
             .then(function () {
                 var done = document.createElement('div');
                 done.className = 'brief-done';
@@ -465,27 +473,9 @@
                 form.appendChild(done);
             })
             .catch(function (error) {
-                restore();
-
-                /* The server answered but refused (e.g. mail not configured yet). */
-                if (error && error.status) {
-                    showError(3, (error.data && error.data.error) || ERROR[lang()].fields);
-                    return;
-                }
-
-                /* No API at all (static preview): hand the brief to the email app. */
-                var body = [
-                    copy.service + ': ' + answers('service').join(', '),
-                    copy.budget + ': ' + answers('budget').join(', '),
-                    copy.timing + ': ' + answers('timing').join(', '),
-                    '',
-                    name + ' <' + email + '>',
-                    message
-                ].join('\n');
-
-                window.location.href = 'mailto:conceptitsolutions99@gmail.com' +
-                    '?subject=' + encodeURIComponent(copy.subject) +
-                    '&body=' + encodeURIComponent(body);
+                button.disabled = false;
+                button.innerHTML = label;
+                showError(3, error.message);
             });
     });
 })();

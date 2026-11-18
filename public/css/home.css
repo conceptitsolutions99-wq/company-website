@@ -1026,7 +1026,9 @@ body ol { margin: 0; padding: 0; list-style: none; }
     align-items: start;
 }
 .req-grid .brief-copy .about-p { color: rgba(255, 255, 255, .72); margin-top: 1.3rem; max-width: 44ch; }
-.req-grid .brief-fine a { color: #fff; text-decoration: underline; }
+.req-section { padding-top: clamp(7rem, 12vw, 10rem); }
+.req-fine { max-width: 34ch; }
+.req-fine a { color: #fff; text-decoration: underline; }
 
 .error-wrap {
     min-height: 68vh;

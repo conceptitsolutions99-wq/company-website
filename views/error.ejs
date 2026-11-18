@@ -1,39 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Not found — True Concept</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/home.css">
-    <script>
-        (function () {
-            try {
-                var saved = localStorage.getItem('theme');
-                var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (dark) document.documentElement.setAttribute('data-theme', 'dark');
-            } catch (e) { /* private mode */ }
-        })();
-    </script>
-</head>
+<%- include('partials/head', { title: 'Not found — True Concept' }) %>
 <body>
 
-<header class="nav nav-solid" id="nav">
-    <div class="nav-inner">
-        <a href="/" class="brand" aria-label="True Concept">
-            <span class="brand-mark" aria-hidden="true"></span>
-            <span class="brand-name">True Concept</span>
-        </a>
-        <div class="nav-actions">
-            <button class="theme-btn" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch theme">
-                <span class="theme-icon" aria-hidden="true">☾</span>
-            </button>
-            <a class="btn-solid" href="/">Back to home</a>
-        </div>
-    </div>
-</header>
+<%- include('partials/nav') %>
 
 <main id="main">
     <section class="section error-wrap">
@@ -42,7 +12,7 @@
             <h1 class="h2">
                 That page<br><span class="muted">is not here.</span>
             </h1>
-            <p class="lede"><%= typeof error !== 'undefined' && error ? error : 'Page not found' %> — head back to the homepage and pick up from there.</p>
+            <p class="lede"><%= error %> — head back to the homepage and pick up from there.</p>
             <div class="page-cta" style="justify-content:center;">
                 <a class="btn-solid btn-lg" href="/">
                     <span>Back to home</span>

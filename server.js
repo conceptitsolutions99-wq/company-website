@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
 const nodemailer = require('nodemailer');
 const { dbQuery, dbQueryOne } = require('./database');
 
@@ -11,10 +10,9 @@ const PORT = process.env.PORT || 3000;
 
 // Every enquiry from the site lands in this inbox.
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'conceptitsolutions99@gmail.com';
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-app.use(cors({ origin: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -50,53 +48,25 @@ const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({
 }[char]));
 
 // ========================================
-// API Routes
+// Enquiries
 // ========================================
-app.get('/api/services', async (req, res) => {
-    try {
-        const services = await dbQuery('SELECT * FROM services ORDER BY created_at DESC');
-        res.json(services);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to fetch services' });
-    }
-});
-
-app.get('/api/services/:id', async (req, res) => {
-    try {
-        const service = await dbQueryOne('SELECT * FROM services WHERE id = ?', [req.params.id]);
-        if (!service) {
-            return res.status(404).json({ error: 'Service not found' });
-        }
-        res.json(service);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to fetch service' });
-    }
-});
-
-// Public enquiry endpoint: nothing is stored, the details are emailed to the company inbox.
+// Nothing is stored: the form fields are emailed to the company inbox.
 app.post('/api/enquiry', async (req, res) => {
     const { name, email, phone, type, service, budget, timing, message } = req.body || {};
 
-    if (!name || !email) {
-        return res.status(400).json({ error: 'Name and email are required' });
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) {
-        return res.status(400).json({ error: 'Please enter a valid email address' });
+    if (!name || !EMAIL_RE.test(String(email || ''))) {
+        return res.status(400).json({ error: 'A name and a valid email address are required.' });
     }
 
     const mailer = getTransporter();
     if (!mailer) {
         console.warn('[email] SMTP_USER / SMTP_PASS are not set — enquiry was not sent.');
         return res.status(503).json({
-            error: `Email is not configured yet. Please write to ${CONTACT_EMAIL}.`,
-            contactEmail: CONTACT_EMAIL
+            error: `Email is not configured yet. Please write to ${CONTACT_EMAIL}.`
         });
     }
 
-    const isServiceRequest = type === 'service';
-    const subject = isServiceRequest
+    const subject = type === 'service'
         ? `Service request — ${service || 'General'}`
         : `New project enquiry — ${name}`;
 
@@ -111,9 +81,9 @@ app.post('/api/enquiry', async (req, res) => {
     ];
 
     const text = rows.map(([label, value]) => `${label}: ${value}`).join('\n');
-    const html = `<h2>${escapeHtml(subject)}</h2><table cellpadding="6">${rows
+    const html = rows
         .map(([label, value]) => `<tr><td><strong>${escapeHtml(label)}</strong></td><td>${escapeHtml(value)}</td></tr>`)
-        .join('')}</table>`;
+        .join('');
 
     try {
         await mailer.sendMail({
@@ -122,15 +92,12 @@ app.post('/api/enquiry', async (req, res) => {
             replyTo: email,
             subject,
             text,
-            html
+            html: `<h2>${escapeHtml(subject)}</h2><table cellpadding="6">${html}</table>`
         });
         res.json({ success: true });
     } catch (err) {
         console.error('[email] send failed:', err.message);
-        res.status(502).json({
-            error: `We could not send your message. Please write to ${CONTACT_EMAIL}.`,
-            contactEmail: CONTACT_EMAIL
-        });
+        res.status(502).json({ error: `We could not send your message. Please write to ${CONTACT_EMAIL}.` });
     }
 });
 
@@ -143,25 +110,28 @@ app.get('/', (req, res) => {
 
 app.get('/services', async (req, res) => {
     try {
-        const services = await dbQuery('SELECT * FROM services');
-        res.render('services', { catalogue: services, contactEmail: CONTACT_EMAIL });
+        const catalogue = await dbQuery('SELECT * FROM services ORDER BY id');
+        res.render('services', { catalogue, contactEmail: CONTACT_EMAIL });
     } catch (err) {
         console.error(err);
+        // The view falls back to the six disciplines when there is no catalogue.
         res.render('services', { catalogue: [], contactEmail: CONTACT_EMAIL });
     }
 });
 
 app.get('/request/:id', async (req, res) => {
+    let service = null;
     try {
-        const service = await dbQueryOne('SELECT * FROM services WHERE id = ?', [req.params.id]);
-        if (!service) {
-            return res.status(404).render('error', { error: 'Service not found' });
-        }
-        res.render('request', { service, contactEmail: CONTACT_EMAIL });
+        service = await dbQueryOne('SELECT * FROM services WHERE id = ?', [req.params.id]);
     } catch (err) {
         console.error(err);
-        res.status(404).render('error', { error: 'Service not found' });
     }
+
+    if (!service) {
+        return res.status(404).render('error', { error: 'Service not found' });
+    }
+
+    res.render('request', { service, contactEmail: CONTACT_EMAIL });
 });
 
 // ========================================

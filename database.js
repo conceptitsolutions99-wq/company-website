@@ -1,16 +1,13 @@
 /**
  * Data layer — Supabase Postgres.
  *
- * The app was written against SQLite, which accepts `?` placeholders and
- * reports the inserted row id on the write handle. So that every query in
- * server.js keeps working unchanged, this module adapts those two details:
- *
- *   • `?` placeholders are rewritten to Postgres `$1, $2, …`
- *   • `RETURNING id` is appended to INSERTs, so dbRun can resolve `{ id }`
+ * The queries were written against SQLite, which accepts `?` placeholders, so
+ * this module rewrites them to Postgres `$1, $2, …` and nothing in the pages
+ * has to know which database is behind them.
  *
  * The connection pool is created on first use rather than at import time, so a
  * missing or misconfigured DATABASE_URL cannot take the whole site down: the
- * marketing pages still render and only data-backed routes fail.
+ * marketing pages still render and only the catalogue route fails.
  *
  * Requires DATABASE_URL — the Supabase pooler connection string:
  *   postgresql://postgres.<ref>:<password>@<region>.pooler.supabase.com:6543/postgres
@@ -50,40 +47,19 @@ function getPool() {
     return pool;
 }
 
-function toPostgres(sql) {
+const toPostgres = (sql) => {
     let index = 0;
     return sql.replace(/\?/g, () => '$' + (++index));
-}
-
-function prepare(sql) {
-    let text = toPostgres(sql);
-    if (/^\s*insert\s/i.test(text) && !/returning/i.test(text)) {
-        text += ' RETURNING id';
-    }
-    return text;
-}
+};
 
 const dbQuery = async (sql, params = []) => {
-    const result = await getPool().query(prepare(sql), params);
+    const result = await getPool().query(toPostgres(sql), params);
     return result.rows;
 };
 
 const dbQueryOne = async (sql, params = []) => {
-    const result = await getPool().query(prepare(sql), params);
+    const result = await getPool().query(toPostgres(sql), params);
     return result.rows[0] || null;
 };
 
-const dbRun = async (sql, params = []) => {
-    const result = await getPool().query(prepare(sql), params);
-    return {
-        id: result.rows[0] ? result.rows[0].id : null,
-        changes: result.rowCount
-    };
-};
-
-module.exports = {
-    getPool,
-    dbQuery,
-    dbQueryOne,
-    dbRun
-};
+module.exports = { dbQuery, dbQueryOne };

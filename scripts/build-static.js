@@ -32,7 +32,8 @@ if (!html.includes(styleTag) || !html.includes(scriptTag)) {
 }
 
 html = html.replace(styleTag, '<style>\n' + css + '\n</style>');
-html = html.replace(scriptTag, '<script>\n' + js + '\n</script>');
+// The preview has no API, so the brief falls back to the visitor's email app.
+html = html.replace(scriptTag, '<script>window.TC_STATIC = true;</script>\n<script>\n' + js + '\n</script>');
 
 // Inline work screenshots: the preview is a single file, so nothing can 404.
 html = html.replace(/src="(\/images\/work\/[^"]+)"/g, (match, src) => {
