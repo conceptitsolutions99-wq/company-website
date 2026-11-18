@@ -1,0 +1,17 @@
+{
+  "name": "True Concept",
+  "short_name": "True Concept",
+  "description": "Technology studio building custom software, web platforms, mobile apps, networks and security systems.",
+  "icons": [
+    {
+      "src": "/images/4.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#0a0a0b",
+  "background_color": "#ffffff",
+  "start_url": "/",
+  "display": "standalone"
+}

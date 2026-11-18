@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<%- include('partials/head', { title: 'Request ' + service.name + ' — True Concept' }) %>
+<%- include('partials/head', {
+    title: 'Request ' + service.name + ' — True Concept',
+    path: '/request/' + service.id
+}) %>
 <body>
 
 <%- include('partials/nav') %>

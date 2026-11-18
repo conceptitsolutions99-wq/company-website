@@ -15,14 +15,25 @@ const ejs = require('ejs');
 const root = path.join(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
+// The preview is a mirror of the real site, so it advertises the real URLs.
+const SITE_URL = 'https://company-website-n9ba.vercel.app';
+
 const template = read('views/index.ejs');
 const css = read('public/css/home.css');
 const js = read('public/js/home.js');
 
-let html = ejs.render(template, { staticPreview: true });
+// filename lets include() resolve partials the way the Express views do.
+let html = ejs.render(template, { staticPreview: true, siteUrl: SITE_URL }, {
+    filename: path.join(root, 'views', 'index.ejs')
+});
 
 // Server routes do not exist on a static host — point them at the section.
 html = html.split('href="/services"').join('href="#services"');
+// A static host has no /images or manifest here, so the icon is inlined and the
+// manifest link dropped rather than served as a 404.
+const icon = fs.readFileSync(path.join(root, 'public/images/4.png')).toString('base64');
+html = html.replace(/href="\/images\/4\.png"/g, 'href="data:image/png;base64,' + icon + '"');
+html = html.replace(/\n\s*<link rel="manifest" href="\/site\.webmanifest">/, '');
 
 const styleTag = '<link rel="stylesheet" href="/css/home.css">';
 const scriptTag = '<script src="/js/home.js"></script>';

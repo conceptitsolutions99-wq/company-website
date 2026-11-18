@@ -1,0 +1,67 @@
+<%
+/* Locals: title, description, path, siteUrl (from the route), noindex.
+   Social scrapers need absolute URLs, so everything is built from siteUrl. */
+const pageTitle = typeof title !== 'undefined' ? title : 'True Concept';
+const pageDescription = typeof description !== 'undefined' ? description : '';
+const pagePath = typeof path !== 'undefined' ? path : '/';
+const base = typeof siteUrl !== 'undefined' ? siteUrl : '';
+const canonical = base + pagePath;
+const isHidden = typeof noindex !== 'undefined' && noindex;
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'ProfessionalService',
+            '@id': base + '/#organization',
+            name: 'True Concept',
+            url: base + '/',
+            logo: base + '/images/4.png',
+            image: base + '/images/og-cover.png',
+            email: 'conceptitsolutions99@gmail.com',
+            foundingDate: '2019',
+            description: 'True Concept is a technology studio building custom software, web platforms, mobile apps, networks and security systems.'
+        },
+        {
+            '@type': 'WebSite',
+            '@id': base + '/#website',
+            url: base + '/',
+            name: 'True Concept',
+            publisher: { '@id': base + '/#organization' }
+        }
+    ]
+};
+%>
+    <title><%= pageTitle %></title>
+<% if (pageDescription) { %>
+    <meta name="description" content="<%= pageDescription %>">
+<% } %>
+<% if (isHidden) { %>
+    <meta name="robots" content="noindex">
+<% } else { %>
+    <link rel="canonical" href="<%= canonical %>">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="True Concept">
+    <meta property="og:title" content="<%= pageTitle %>">
+<% if (pageDescription) { %>
+    <meta property="og:description" content="<%= pageDescription %>">
+<% } %>
+    <meta property="og:url" content="<%= canonical %>">
+    <meta property="og:image" content="<%= base %>/images/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="True Concept — software, platforms and infrastructure">
+    <meta property="og:locale" content="en">
+    <meta property="og:locale:alternate" content="ar">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= pageTitle %>">
+<% if (pageDescription) { %>
+    <meta name="twitter:description" content="<%= pageDescription %>">
+<% } %>
+    <meta name="twitter:image" content="<%= base %>/images/og-cover.png">
+    <script type="application/ld+json"><%- JSON.stringify(structuredData) %></script>
+<% } %>
+    <link rel="icon" type="image/png" href="/images/4.png" sizes="512x512">
+    <link rel="apple-touch-icon" href="/images/4.png">
+    <link rel="manifest" href="/site.webmanifest">
