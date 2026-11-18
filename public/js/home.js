@@ -35,8 +35,6 @@
         'nav.services': 'خدماتنا',
         'nav.about': 'من نحن',
         'nav.brief': 'ابدأ مشروعك',
-        'nav.login': 'تسجيل الدخول',
-        'nav.dashboard': 'لوحة التحكم',
         'nav.start': 'ابدأ مشروعك',
 
         'hero.kicker': 'استديو تقني — منذ 2019',
