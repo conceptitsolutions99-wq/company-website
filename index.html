@@ -590,23 +590,23 @@ body ol { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------- Studio ---------- */
-.studio {
+.about {
     background: linear-gradient(140deg, #4d2ce8 0%, #6c4cff 42%, #a06bff 100%);
     color: #fff;
 }
 
-.studio-grid {
+.about-grid {
     display: grid;
     grid-template-columns: 1.05fr .95fr;
     gap: clamp(2rem, 5vw, 5rem);
     align-items: start;
 }
-.studio-p {
+.about-p {
     color: rgba(255, 255, 255, .78);
     margin-top: 1.3rem;
     max-width: 44ch;
 }
-.studio-copy .btn-light { margin-top: 2rem; }
+.about-copy .btn-light { margin-top: 2rem; }
 
 .stats {
     display: grid;
@@ -716,7 +716,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- Brief ---------- */
 .brief { background: var(--ink); color: #fff; }
-.brief .studio-p { color: rgba(255, 255, 255, .62); }
+.brief .about-p { color: rgba(255, 255, 255, .62); }
 
 .brief-grid {
     display: grid;
@@ -968,7 +968,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
     .service-row { grid-template-columns: 2.6rem 1fr; }
     .service-arrow { display: none; }
 
-    .studio-grid,
+    .about-grid,
     .brief-grid,
     .footer-top { grid-template-columns: 1fr; }
 
@@ -1009,7 +1009,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
         <nav class="nav-links" id="navLinks" aria-label="Primary">
             <a href="#work" data-i18n="nav.work">Work</a>
             <a href="#services" data-i18n="nav.services">Services</a>
-            <a href="#studio" data-i18n="nav.studio">Studio</a>
+            <a href="#about" data-i18n="nav.about">About</a>
             <a href="#brief" data-i18n="nav.brief">Start a project</a>
         </nav>
 
@@ -1279,24 +1279,24 @@ body ol { margin: 0; padding: 0; list-style: none; }
     </section>
 
     <!-- ============ STUDIO ============ -->
-    <section class="section studio" id="studio">
-        <div class="wrap studio-grid">
-            <div class="studio-copy">
-                <p class="label label-light" data-i18n="studio.label">The studio</p>
+    <section class="section about" id="about">
+        <div class="wrap about-grid">
+            <div class="about-copy">
+                <p class="label label-light" data-i18n="about.label">About us</p>
                 <h2 class="h2 h2-light">
-                    <span data-i18n="studio.title">We are the technical partner</span>
-                    <span class="muted-light" data-i18n="studio.title2">behind the operations.</span>
+                    <span data-i18n="about.title">We are the technical partner</span>
+                    <span class="muted-light" data-i18n="about.title2">behind the operations.</span>
                 </h2>
-                <p class="studio-p" data-i18n="studio.p1">
+                <p class="about-p" data-i18n="about.p1">
                     Since 2019 we have been helping businesses put technology to work — replacing
                     spreadsheets with systems, paper with platforms, and guesswork with data.
                 </p>
-                <p class="studio-p" data-i18n="studio.p2">
+                <p class="about-p" data-i18n="about.p2">
                     Our mission is simple: build software that removes friction from the way our
                     clients work, then stay long enough to keep it that way.
                 </p>
                 <a href="#brief" class="btn-light">
-                    <span data-i18n="studio.cta">Work with us</span>
+                    <span data-i18n="about.cta">Work with us</span>
                     <span class="arrow" aria-hidden="true">↗</span>
                 </a>
             </div>
@@ -1419,7 +1419,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
                     <span data-i18n="brief.title">Tell us what</span>
                     <span class="muted-light" data-i18n="brief.title2">needs building.</span>
                 </h2>
-                <p class="studio-p" data-i18n="brief.lede">
+                <p class="about-p" data-i18n="brief.lede">
                     Three quick questions and we will come back with a plan, a rough budget and
                     the next step. No sales script.
                 </p>
@@ -1526,7 +1526,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
                     <h4 data-i18n="footer.sitemap">Site</h4>
                     <a href="#work" data-i18n="nav.work">Work</a>
                     <a href="#services" data-i18n="nav.services">Services</a>
-                    <a href="#studio" data-i18n="nav.studio">Studio</a>
+                    <a href="#about" data-i18n="nav.about">About</a>
                     <a href="#brief" data-i18n="nav.brief">Start a project</a>
                 </div>
                 <div class="footer-col">
@@ -1572,7 +1572,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
         'a11y.skip': 'تخطَّ إلى المحتوى',
         'nav.work': 'أعمالنا',
         'nav.services': 'خدماتنا',
-        'nav.studio': 'الاستديو',
+        'nav.about': 'من نحن',
         'nav.brief': 'ابدأ مشروعك',
         'nav.login': 'تسجيل الدخول',
         'nav.dashboard': 'لوحة التحكم',
@@ -1635,12 +1635,12 @@ body ol { margin: 0; padding: 0; list-style: none; }
         'work.8.name': 'OmniSales',
         'work.8.desc': 'تطبيق ويب للمبيعات، بُني ونُشر لفريق أعمال.',
 
-        'studio.label': 'الاستديو',
-        'studio.title': 'نحن الشريك التقني',
-        'studio.title2': 'خلف العمليات اليومية.',
-        'studio.p1': 'منذ 2019 نساعد الشركات على تشغيل التقنية لصالحها — استبدال الجداول بأنظمة، والأوراق بمنصات، والتقديرات بالبيانات.',
-        'studio.p2': 'مهمتنا بسيطة: بناء برمجيات تُزيل التعقيد من طريقة عمل عملائنا، ثم البقاء بما يكفي للحفاظ على ذلك.',
-        'studio.cta': 'اعمل معنا',
+        'about.label': 'من نحن',
+        'about.title': 'نحن الشريك التقني',
+        'about.title2': 'خلف العمليات اليومية.',
+        'about.p1': 'منذ 2019 نساعد الشركات على تشغيل التقنية لصالحها — استبدال الجداول بأنظمة، والأوراق بمنصات، والتقديرات بالبيانات.',
+        'about.p2': 'مهمتنا بسيطة: بناء برمجيات تُزيل التعقيد من طريقة عمل عملائنا، ثم البقاء بما يكفي للحفاظ على ذلك.',
+        'about.cta': 'اعمل معنا',
         'stat.1': 'سنوات في السوق',
         'stat.2': 'مشروع منجز',
         'stat.3': 'عميل',
