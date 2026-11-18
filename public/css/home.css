@@ -624,6 +624,10 @@ body ol { margin: 0; padding: 0; list-style: none; }
     font-size: .94rem;
 }
 
+/* Cards for builds that cannot be opened publicly. */
+.work-card.is-private { cursor: default; }
+.work-card.is-private:hover .work-art img { transform: none; }
+
 /* ---------- Studio ---------- */
 .about {
     background: linear-gradient(140deg, #4d2ce8 0%, #6c4cff 42%, #a06bff 100%);
@@ -699,54 +703,6 @@ body ol { margin: 0; padding: 0; list-style: none; }
     margin-top: .6rem;
     color: var(--text-soft);
     font-size: .94rem;
-}
-
-/* ---------- Quotes ---------- */
-.quotes { background: var(--mist); }
-.quote-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1rem, 2vw, 1.6rem);
-    margin-top: clamp(2.5rem, 5vw, 3.6rem);
-}
-.quote {
-    margin: 0;
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: clamp(1.4rem, 2.6vw, 2rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1.8rem;
-}
-.quote blockquote {
-    margin: 0;
-    font-size: 1.02rem;
-    line-height: 1.65;
-    color: var(--text);
-}
-.quote figcaption {
-    display: flex;
-    align-items: center;
-    gap: .8rem;
-}
-.avatar {
-    width: 40px;
-    height: 40px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: linear-gradient(140deg, #e7e1ff, #cfc2ff);
-    color: var(--violet-deep);
-    font-size: .78rem;
-    font-weight: 700;
-}
-.quote figcaption strong { display: block; font-size: .92rem; font-weight: 700; }
-.quote figcaption em {
-    display: block;
-    font-style: normal;
-    font-size: .82rem;
-    color: var(--text-faint);
 }
 
 /* ---------- Brief ---------- */
@@ -1045,7 +1001,6 @@ body ol { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
-    .quote-grid { grid-template-columns: 1fr 1fr; }
     .footer-cols { grid-template-columns: repeat(2, 1fr); }
     .orb-sphere { inset-inline-end: -8%; opacity: .9; }
 }
@@ -1088,7 +1043,6 @@ body ol { margin: 0; padding: 0; list-style: none; }
     .footer-top { grid-template-columns: 1fr; }
 
     .process-grid,
-    .quote-grid,
     .work-grid { grid-template-columns: 1fr; }
 
     .footer-wordmark { max-width: none; }
