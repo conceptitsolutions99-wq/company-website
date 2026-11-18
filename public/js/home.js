@@ -145,7 +145,7 @@
         'brief.about': 'أي تفاصيل أخرى؟',
         'brief.ph': 'جملة أو جملتان عن المشكلة…',
         'brief.send': 'أرسل الموجز',
-        'brief.fine': 'يفتح تطبيق البريد لديك والموجز معبّأ — لا يُخزَّن شيء على هذا الموقع.',
+        'brief.fine': 'يُرسَل الموجز إلى بريدنا مباشرة — ونحتفظ ببياناتك للرد على طلبك فقط.',
 
         'footer.sitemap': 'الموقع',
         'footer.services': 'الخدمات',
@@ -433,6 +433,7 @@
 
         var button = form.querySelector('button[type="submit"]');
         var label = button.innerHTML;
+        var honeypot = document.getElementById('briefWebsite');
         button.disabled = true;
         button.textContent = SENT[lang()].sending;
 
@@ -443,6 +444,7 @@
             service: answers('service').join(', '),
             budget: answers('budget').join(', '),
             timing: answers('timing').join(', '),
+            website: honeypot ? honeypot.value : '',
             message: message
         })
             .then(function () {

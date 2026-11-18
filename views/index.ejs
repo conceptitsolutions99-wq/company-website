@@ -462,6 +462,10 @@
                 <!-- Step 3 -->
                 <fieldset class="brief-step" data-step="3">
                     <legend class="brief-q" data-i18n="brief.q3">Where do we send the plan?</legend>
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="briefWebsite">Website</label>
+                        <input type="text" id="briefWebsite" name="website" tabindex="-1" autocomplete="off">
+                    </div>
                     <label class="field">
                         <span data-i18n="brief.name">Your name</span>
                         <input type="text" name="name" id="briefName" autocomplete="name" required minlength="2" placeholder="Sara Ahmed">
@@ -483,7 +487,7 @@
                         </button>
                     </div>
                     <p class="brief-fine" data-i18n="brief.fine">
-                        Sent straight to our inbox — nothing is stored on this site.
+                        Goes straight to our inbox — we keep your details only to reply to this enquiry.
                     </p>
                 </fieldset>
             </form>

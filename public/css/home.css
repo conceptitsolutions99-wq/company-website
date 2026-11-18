@@ -804,6 +804,15 @@ body ol { margin: 0; padding: 0; list-style: none; }
     border-color: var(--ink);
 }
 
+/* Honeypot: invisible to people, tempting to scripts. */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 .field { display: block; margin-bottom: .9rem; }
 .field > span {
     display: block;

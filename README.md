@@ -21,10 +21,16 @@ Without `DATABASE_URL` the marketing pages still render; only the service catalo
 
 ## Enquiry email
 
-`/api/enquiry` renders the forms' contents into an email — nothing is stored on the server.
-It sends through SMTP using `SMTP_USER` / `SMTP_PASS` (a Google **App Password**, not the
-account password) to `CONTACT_EMAIL`, which defaults to the company inbox. If the credentials
-are missing the endpoint answers `503` and the form tells the visitor where to write instead.
+`/api/enquiry` writes the submission to the `enquiries` table **first**, then emails it through
+SMTP using `SMTP_USER` / `SMTP_PASS` (a Google **App Password**, not the account password) to
+`CONTACT_EMAIL`, which defaults to the company inbox. A row with `email_sent = false` is a lead
+that was captured but never mailed — check it before trusting the inbox.
+
+If the credentials are missing the endpoint answers `503` and the form tells the visitor where
+to write instead; the row is still stored. Two guards keep scripted abuse out: a hidden
+`website` field (honeypot) that only a bot fills, and a per-IP limit of five enquiries per ten
+minutes, which answers `429`. The limiter is held in memory, so it is a speed bump per
+serverless instance, not a global quota.
 
 ## Database
 

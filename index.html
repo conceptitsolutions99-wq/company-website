@@ -817,6 +817,15 @@ body ol { margin: 0; padding: 0; list-style: none; }
     border-color: var(--ink);
 }
 
+/* Honeypot: invisible to people, tempting to scripts. */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 .field { display: block; margin-bottom: .9rem; }
 .field > span {
     display: block;
@@ -1527,6 +1536,10 @@ body ol { margin: 0; padding: 0; list-style: none; }
                 <!-- Step 3 -->
                 <fieldset class="brief-step" data-step="3">
                     <legend class="brief-q" data-i18n="brief.q3">Where do we send the plan?</legend>
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="briefWebsite">Website</label>
+                        <input type="text" id="briefWebsite" name="website" tabindex="-1" autocomplete="off">
+                    </div>
                     <label class="field">
                         <span data-i18n="brief.name">Your name</span>
                         <input type="text" name="name" id="briefName" autocomplete="name" required minlength="2" placeholder="Sara Ahmed">
@@ -1548,7 +1561,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
                         </button>
                     </div>
                     <p class="brief-fine" data-i18n="brief.fine">
-                        Sent straight to our inbox — nothing is stored on this site.
+                        Goes straight to our inbox — we keep your details only to reply to this enquiry.
                     </p>
                 </fieldset>
             </form>
@@ -1739,7 +1752,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
         'brief.about': 'أي تفاصيل أخرى؟',
         'brief.ph': 'جملة أو جملتان عن المشكلة…',
         'brief.send': 'أرسل الموجز',
-        'brief.fine': 'يفتح تطبيق البريد لديك والموجز معبّأ — لا يُخزَّن شيء على هذا الموقع.',
+        'brief.fine': 'يُرسَل الموجز إلى بريدنا مباشرة — ونحتفظ ببياناتك للرد على طلبك فقط.',
 
         'footer.sitemap': 'الموقع',
         'footer.services': 'الخدمات',
@@ -2027,6 +2040,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 
         var button = form.querySelector('button[type="submit"]');
         var label = button.innerHTML;
+        var honeypot = document.getElementById('briefWebsite');
         button.disabled = true;
         button.textContent = SENT[lang()].sending;
 
@@ -2037,6 +2051,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
             service: answers('service').join(', '),
             budget: answers('budget').join(', '),
             timing: answers('timing').join(', '),
+            website: honeypot ? honeypot.value : '',
             message: message
         })
             .then(function () {

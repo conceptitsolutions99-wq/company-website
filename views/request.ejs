@@ -23,13 +23,18 @@
                 </ul>
 
                 <p class="brief-fine req-fine">
-                    Your details go straight to <a href="mailto:<%= contactEmail %>"><%= contactEmail %></a> — nothing is stored on this site.
+                    Your details go straight to <a href="mailto:<%= contactEmail %>"><%= contactEmail %></a> — we keep them only to answer your enquiry, and never share them.
                 </p>
             </div>
 
             <div class="brief-card">
                 <form id="requestForm" novalidate>
                     <p class="brief-q">Tell us about the project</p>
+
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="requestWebsite">Website</label>
+                        <input type="text" id="requestWebsite" name="website" tabindex="-1" autocomplete="off">
+                    </div>
 
                     <label class="field">
                         <span>Your name</span>
@@ -106,6 +111,7 @@
             name: name,
             email: email,
             phone: document.getElementById('phone').value.trim(),
+            website: document.getElementById('requestWebsite').value,
             message: details
         })
             .then(function () {
