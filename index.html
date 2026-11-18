@@ -1788,7 +1788,50 @@ body ol { margin: 0; padding: 0; list-style: none; }
         'footer.services': 'الخدمات',
         'footer.contact': 'التواصل',
         'footer.rights': 'جميع الحقوق محفوظة.',
-        'footer.built': 'استراتيجية · تصميم · هندسة'
+        'footer.built': 'استراتيجية · تصميم · هندسة',
+
+        /* Services, request and error pages */
+        'page.services.label': 'خدماتنا',
+        'page.services.title1': 'تقنية تُشغّل',
+        'page.services.title2': 'عملياتك.',
+        'page.services.lede': 'ست تخصصات وفريق واحد. كل مشروع يبدأ من طريقة عمل الشركة اليوم — ثم نبني أصغر نظام يزيل التعطيل.',
+        'cat.1.desc': 'أنظمة مؤسسية وأدوات داخلية وتكاملات مبنية حول طريقة عمل شركتك فعليًا.',
+        'cat.2.desc': 'مواقع وتطبيقات ويب سريعة وسهلة الوصول على تقنيات حديثة، مصمّمة لتدوم.',
+        'cat.3.desc': 'تطبيقات أصلية ومتعددة المنصات لنظامي iOS وAndroid، من النموذج الأولي إلى النشر في المتاجر.',
+        'cat.4.desc': 'ترحيل واستضافة وإدارة بنية تحتية تتوسّع دون مفاجآت في التكلفة.',
+        'cat.5.desc': 'تصميم وتركيب وصيانة شبكات موثوقة للمكاتب والفروع والمواقع.',
+        'cat.6.desc': 'مراقبة وتحكّم بالدخول وتحصين أمني لمقراتك وبياناتك.',
+        'common.from': 'تبدأ من',
+        'common.request': 'اطلب',
+        'common.backHome': 'العودة إلى الرئيسية',
+        'common.backHomeFull': 'True Concept — العودة إلى الرئيسية',
+
+        'req.label': 'اطلب خدمة',
+        'req.title2': 'لنحدّد نطاقه.',
+        'req.point2': 'رد خلال يوم عمل واحد',
+        'req.point3': 'تقدير بنطاق ثابت قبل كتابة أي كود',
+        'req.fine1': 'بياناتك تُرسَل مباشرة إلى',
+        'req.fine2': '— نحتفظ بها للرد على طلبك فقط، ولا نشاركها أبدًا.',
+        'req.intro': 'أخبرنا عن المشروع',
+        'req.name': 'اسمك',
+        'req.email': 'البريد الإلكتروني',
+        'req.phone': 'الهاتف (اختياري)',
+        'req.details': 'تفاصيل المشروع',
+        'req.detailsPh': 'ماذا تبني، ومتى تحتاجه؟',
+        'req.send': 'أرسل الطلب',
+        'req.sending': 'جارٍ الإرسال…',
+        'req.sentTitle': 'تم إرسال الطلب',
+        'req.sent1': 'في طريقه إلى',
+        'req.sent2': 'سنرد على بريدك خلال يوم عمل واحد.',
+        'req.errName': 'أضف اسمك وبريدًا إلكترونيًا صحيحًا.',
+        'req.errDetails': 'اوصف المشروع بحد أدنى 20 حرفًا.',
+
+        'err.title1': 'هذه الصفحة',
+        'err.title2': 'غير موجودة.',
+        'err.page': 'الصفحة غير موجودة',
+        'err.service': 'الخدمة غير موجودة',
+        'err.server': 'حدث خطأ ما',
+        'err.hint': '— عُد إلى الصفحة الرئيسية وتابع من هناك.'
     };
 
     /* Messages only ever shown by script, so they live here. */
@@ -1826,6 +1869,12 @@ body ol { margin: 0; padding: 0; list-style: none; }
     function lang() {
         return html.getAttribute('lang') === 'ar' ? 'ar' : 'en';
     }
+
+    /* For copy only scripts can show: Arabic when the page is in Arabic, the
+       caller's English otherwise. */
+    window.tcSay = function (key, english) {
+        return lang() === 'ar' && AR[key] ? AR[key] : english;
+    };
 
     /* ============================================================
        Language

@@ -12,27 +12,29 @@
     <section class="section brief req-section">
         <div class="wrap req-grid">
             <div class="brief-copy">
-                <p class="label label-light">Request a service</p>
+                <p class="label label-light" data-i18n="req.label">Request a service</p>
                 <h2 class="h2 h2-light">
                     <span><%= service.name %></span><br>
-                    <span class="muted-light">let's scope it.</span>
+                    <span class="muted-light" data-i18n="req.title2">let's scope it.</span>
                 </h2>
                 <p class="about-p"><%= service.description %></p>
 
                 <ul class="brief-points">
-                    <li><span aria-hidden="true">✳</span><span>Starting from EGP <%= Number(service.price).toLocaleString() %></span></li>
-                    <li><span aria-hidden="true">✳</span><span>A reply within one working day</span></li>
-                    <li><span aria-hidden="true">✳</span><span>Fixed-scope estimate before any code</span></li>
+                    <li><span aria-hidden="true">✳</span><span><span data-i18n="common.from">Starting from</span> EGP <%= Number(service.price).toLocaleString() %></span></li>
+                    <li><span aria-hidden="true">✳</span><span data-i18n="req.point2">A reply within one working day</span></li>
+                    <li><span aria-hidden="true">✳</span><span data-i18n="req.point3">Fixed-scope estimate before any code</span></li>
                 </ul>
 
                 <p class="brief-fine req-fine">
-                    Your details go straight to <a href="mailto:<%= contactEmail %>"><%= contactEmail %></a> — we keep them only to answer your enquiry, and never share them.
+                    <span data-i18n="req.fine1">Your details go straight to</span>
+                    <a href="mailto:<%= contactEmail %>"><%= contactEmail %></a>
+                    <span data-i18n="req.fine2">— we keep them only to answer your enquiry, and never share them.</span>
                 </p>
             </div>
 
             <div class="brief-card">
                 <form id="requestForm" novalidate>
-                    <p class="brief-q">Tell us about the project</p>
+                    <p class="brief-q" data-i18n="req.intro">Tell us about the project</p>
 
                     <div class="hp-field" aria-hidden="true">
                         <label for="requestWebsite">Website</label>
@@ -40,43 +42,45 @@
                     </div>
 
                     <label class="field">
-                        <span>Your name</span>
+                        <span data-i18n="req.name">Your name</span>
                         <input type="text" id="name" name="name" autocomplete="name" required minlength="2">
                     </label>
 
                     <label class="field">
-                        <span>Email</span>
+                        <span data-i18n="req.email">Email</span>
                         <input type="email" id="email" name="email" autocomplete="email" required>
                     </label>
 
                     <label class="field">
-                        <span>Phone (optional)</span>
+                        <span data-i18n="req.phone">Phone (optional)</span>
                         <input type="tel" id="phone" name="phone" autocomplete="tel">
                     </label>
 
                     <label class="field">
-                        <span>Project details</span>
+                        <span data-i18n="req.details">Project details</span>
                         <textarea id="details" name="details" rows="5" required minlength="20"
-                            placeholder="What are you building, and by when?"></textarea>
+                            placeholder="What are you building, and by when?"
+                            data-i18n-placeholder="req.detailsPh"></textarea>
                     </label>
 
                     <p class="brief-error" id="formError" role="alert"></p>
 
                     <div class="brief-actions">
                         <button type="submit" class="btn-solid btn-full">
-                            <span>Send request</span>
+                            <span data-i18n="req.send">Send request</span>
                             <span class="arrow" aria-hidden="true">↗</span>
                         </button>
                     </div>
                 </form>
 
                 <div id="successMessage" style="display:none;">
-                    <p class="brief-q">Request sent</p>
+                    <p class="brief-q" data-i18n="req.sentTitle">Request sent</p>
                     <p class="brief-fine req-fine" style="margin-top:.6rem;">
-                        It is on its way to <%= contactEmail %>. We will reply to your email within one working day.
+                        <span data-i18n="req.sent1">It is on its way to</span>
+                        <%= contactEmail %>. <span data-i18n="req.sent2">We will reply to your email within one working day.</span>
                     </p>
                     <div class="brief-actions">
-                        <a class="btn-solid btn-full" href="/">Back to home</a>
+                        <a class="btn-solid btn-full" href="/" data-i18n="common.backHome">Back to home</a>
                     </div>
                 </div>
             </div>
@@ -94,19 +98,23 @@
         var name = document.getElementById('name').value.trim();
         var email = document.getElementById('email').value.trim();
         var details = document.getElementById('details').value.trim();
+        // Arabic copy lives in home.js; the English stays here as the fallback.
+        var say = function (key, english) {
+            return window.tcSay ? window.tcSay(key, english) : english;
+        };
 
         if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errorEl.textContent = 'Please add your name and a valid email address.';
+            errorEl.textContent = say('req.errName', 'Please add your name and a valid email address.');
             return;
         }
         if (details.length < 20) {
-            errorEl.textContent = 'Please describe the project in at least 20 characters.';
+            errorEl.textContent = say('req.errDetails', 'Please describe the project in at least 20 characters.');
             return;
         }
 
         errorEl.textContent = '';
         button.disabled = true;
-        button.textContent = 'Sending…';
+        button.textContent = say('req.sending', 'Sending…');
 
         window.tcSendEnquiry({
             type: 'service',
@@ -124,7 +132,7 @@
             .catch(function (error) {
                 errorEl.textContent = error.message;
                 button.disabled = false;
-                button.textContent = 'Send request';
+                button.textContent = say('req.send', 'Send request');
             });
     });
 </script>

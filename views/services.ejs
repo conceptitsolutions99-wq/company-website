@@ -10,6 +10,17 @@
 <%- include('partials/nav') %>
 
 <%
+/* Only the six copy services have Arabic copy; anything added in the database
+   keeps its own wording rather than being labelled with a neighbour's. */
+const CARD_KEYS = {
+    'Custom software': 1,
+    'Web platforms': 2,
+    'Mobile apps': 3,
+    'Cloud & infrastructure': 4,
+    'Networks': 5,
+    'CCTV & security': 6
+};
+
 const cards = (Array.isArray(catalogue) && catalogue.length > 0)
     ? catalogue.map((service) => ({
         name: service.name,
@@ -31,29 +42,29 @@ const cards = (Array.isArray(catalogue) && catalogue.length > 0)
     <section class="section page">
         <div class="wrap">
             <div class="page-head">
-                <p class="label">Our services</p>
+                <p class="label" data-i18n="page.services.label">Our services</p>
                 <h2 class="h2">
-                    Technology that runs<br>
-                    <span class="muted">your operation.</span>
+                    <span data-i18n="page.services.title1">Technology that runs</span><br>
+                    <span class="muted" data-i18n="page.services.title2">your operation.</span>
                 </h2>
-                <p class="lede">
+                <p class="lede" data-i18n="page.services.lede">
                     Six disciplines, one team. Every engagement starts with how the business actually
                     works today — then we build the smallest system that removes the friction.
                 </p>
             </div>
 
             <div class="cat-grid">
-                <% cards.forEach((card) => { %>
+                <% cards.forEach((card) => { const key = CARD_KEYS[card.name] || null; %>
                     <article class="cat-card">
-                        <h3><%= card.name %></h3>
-                        <p><%= card.description %></p>
+                        <h3<%- key ? ' data-i18n="svc.' + key + '.name"' : '' %>><%= card.name %></h3>
+                        <p<%- key ? ' data-i18n="cat.' + key + '.desc"' : '' %>><%= card.description %></p>
                         <% if (card.price) { %>
                             <div class="cat-meta">
                                 <span class="cat-price">
-                                    <span>Starting from</span>
+                                    <span data-i18n="common.from">Starting from</span>
                                     EGP <%= card.price.toLocaleString() %>
                                 </span>
-                                <a class="btn-outline" href="<%= card.href %>">Request</a>
+                                <a class="btn-outline" href="<%= card.href %>" data-i18n="common.request">Request</a>
                             </div>
                         <% } %>
                     </article>
@@ -62,7 +73,7 @@ const cards = (Array.isArray(catalogue) && catalogue.length > 0)
 
             <div class="page-cta">
                 <a class="btn-solid btn-lg" href="/#brief">
-                    <span>Start a project</span>
+                    <span data-i18n="nav.start">Start a project</span>
                     <span class="arrow" aria-hidden="true">↗</span>
                 </a>
                 <a class="btn-outline btn-lg" href="mailto:<%= contactEmail %>"><%= contactEmail %></a>
@@ -75,7 +86,7 @@ const cards = (Array.isArray(catalogue) && catalogue.length > 0)
     <div class="wrap">
         <div class="footer-bottom" style="margin-top:0; border-top:0; padding-top:0;">
             <p>&copy; <span id="year">2026</span> True Concept</p>
-            <p><a href="/">True Concept — back to home</a></p>
+            <p><a href="/" data-i18n="common.backHomeFull">True Concept — back to home</a></p>
         </div>
     </div>
 </footer>

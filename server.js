@@ -243,7 +243,7 @@ app.get('/request/:id', async (req, res) => {
     }
 
     if (!service) {
-        return res.status(404).render('error', { error: 'Service not found' });
+        return res.status(404).render('error', { error: 'Service not found', errorKey: 'err.service' });
     }
 
     res.render('request', { service, contactEmail: CONTACT_EMAIL });
@@ -254,11 +254,11 @@ app.get('/request/:id', async (req, res) => {
 // ========================================
 app.use((err, req, res, next) => {
     console.error(err);
-    res.status(500).render('error', { error: 'Something went wrong' });
+    res.status(500).render('error', { error: 'Something went wrong', errorKey: 'err.server' });
 });
 
 app.use((req, res) => {
-    res.status(404).render('error', { error: 'Page not found' });
+    res.status(404).render('error', { error: 'Page not found', errorKey: 'err.page' });
 });
 
 app.listen(PORT, '0.0.0.0', () => {

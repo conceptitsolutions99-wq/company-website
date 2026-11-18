@@ -14,12 +14,16 @@
         <div class="wrap">
             <p class="label">404</p>
             <h1 class="h2">
-                That page<br><span class="muted">is not here.</span>
+                <span data-i18n="err.title1">That page</span><br>
+                <span class="muted" data-i18n="err.title2">is not here.</span>
             </h1>
-            <p class="lede"><%= error %> — head back to the homepage and pick up from there.</p>
+            <p class="lede">
+                <span data-i18n="<%= typeof errorKey !== 'undefined' ? errorKey : 'err.page' %>"><%= error %></span>
+                <span data-i18n="err.hint">— head back to the homepage and pick up from there.</span>
+            </p>
             <div class="page-cta" style="justify-content:center;">
                 <a class="btn-solid btn-lg" href="/">
-                    <span>Back to home</span>
+                    <span data-i18n="common.backHome">Back to home</span>
                     <span class="arrow" aria-hidden="true">↗</span>
                 </a>
             </div>
