@@ -1,3 +1,11 @@
+<%
+/* The homepage navigates within itself; every other page points back at the
+   homepage's sections. */
+const atHome = typeof homeLinks !== 'undefined' && homeLinks;
+const nav = atHome
+    ? { work: '#work', services: '#services', about: '#about', brief: '#brief' }
+    : { work: '/#work', services: '/services', about: '/#about', brief: '/#brief' };
+%>
 <header class="nav<%- typeof navClass !== 'undefined' && navClass ? ' ' + navClass : '' %>" id="nav">
     <div class="nav-inner">
         <a href="/" class="brand" aria-label="True Concept">
@@ -5,17 +13,17 @@
             <span class="brand-name">True Concept</span>
         </a>
         <nav class="nav-links" id="navLinks" aria-label="Primary">
-            <a href="/#work" data-i18n="nav.work">Work</a>
-            <a href="/services" data-i18n="nav.services">Services</a>
-            <a href="/#about" data-i18n="nav.about">About</a>
-            <a href="/#brief" data-i18n="nav.brief">Start a project</a>
+            <a href="<%= nav.work %>" data-i18n="nav.work">Work</a>
+            <a href="<%= nav.services %>" data-i18n="nav.services">Services</a>
+            <a href="<%= nav.about %>" data-i18n="nav.about">About</a>
+            <a href="<%= nav.brief %>" data-i18n="nav.brief">Start a project</a>
         </nav>
         <div class="nav-actions">
             <button class="theme-btn" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch theme">
                 <span class="theme-icon" aria-hidden="true">☾</span>
             </button>
             <button class="lang-btn" id="langToggle" type="button" aria-label="Switch language">AR</button>
-            <a class="btn-solid" href="/#brief" data-i18n="nav.start">Start a project</a>
+            <a class="btn-solid" href="<%= nav.brief %>" data-i18n="nav.start">Start a project</a>
         </div>
         <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
             <span></span><span></span>
