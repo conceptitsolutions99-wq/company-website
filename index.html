@@ -272,6 +272,21 @@ body ol { margin: 0; padding: 0; list-style: none; }
     border-bottom-color: var(--line);
 }
 
+/* The request page opens straight onto the dark band, so its nav borrows the
+   dark palette — otherwise dark brand, links and buttons sit on near-black. */
+.nav-dark {
+    --text: #ffffff;
+    --line: rgba(255, 255, 255, .24);
+    --nav-bg: rgba(10, 10, 11, .78);
+    --btn-bg: #ffffff;
+    --btn-fg: #0a0a0b;
+    color: #fff;
+}
+.nav-dark .nav-links a { color: rgba(255, 255, 255, .78); }
+.nav-dark .nav-links a:hover { color: #fff; }
+.nav-dark .nav-links.open { background: #0e0e12; }
+.nav-dark .burger span { background: #fff; }
+
 .nav-inner {
     max-width: var(--wrap);
     margin: 0 auto;
@@ -847,13 +862,19 @@ body ol { margin: 0; padding: 0; list-style: none; }
     border-color: var(--ink);
 }
 
-/* Honeypot: invisible to people, tempting to scripts. */
+/* Honeypot: invisible to people, tempting to scripts. Clipped in place rather
+   than parked off-canvas, which in RTL would stretch the page's scroll area. */
 .hp-field {
     position: absolute;
-    left: -9999px;
     width: 1px;
     height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
     overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 .field { display: block; margin-bottom: .9rem; }
@@ -1074,9 +1095,12 @@ body ol { margin: 0; padding: 0; list-style: none; }
     .nav-links.open { display: flex; }
     .nav-links a { font-size: 1.05rem; }
 
-    .burger { display: flex; margin-inline-start: auto; }
-    .nav-actions { gap: .5rem; }
-    .nav-actions .btn-ghost { display: none; }
+    .burger { display: flex; }
+    .nav-actions { gap: .5rem; margin-inline-start: auto; }
+    /* Three buttons plus the burger do not fit a phone; "Start a project" lives
+       in the menu, so the header keeps only the theme and language switches. */
+    .nav-actions .btn-ghost,
+    .nav-actions .btn-solid { display: none; }
 
     .hero { min-height: auto; padding-top: 7rem; }
     .hero-type { max-width: none; }
