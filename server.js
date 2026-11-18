@@ -144,10 +144,10 @@ app.get('/', (req, res) => {
 app.get('/services', async (req, res) => {
     try {
         const services = await dbQuery('SELECT * FROM services');
-        res.render('services', { services, contactEmail: CONTACT_EMAIL });
+        res.render('services', { catalogue: services, contactEmail: CONTACT_EMAIL });
     } catch (err) {
         console.error(err);
-        res.render('services', { services: [], contactEmail: CONTACT_EMAIL, error: 'Failed to load services' });
+        res.render('services', { catalogue: [], contactEmail: CONTACT_EMAIL });
     }
 });
 
