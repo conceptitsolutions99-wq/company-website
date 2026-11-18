@@ -1,7 +1,7 @@
 /* ============================================================
-   True Concept — public homepage (creative studio design)
-   Loaded by views/index.ejs only. The app views (login,
-   dashboard, admin) keep using styles.css.
+   True Concept — public site
+   Shared by views/index.ejs and the inner pages (services,
+   request, error). The generated preview inlines it.
    ============================================================ */
 
 /* ---------- Tokens ---------- */
