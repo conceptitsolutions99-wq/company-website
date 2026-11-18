@@ -28,12 +28,42 @@
     --line: rgba(10, 10, 11, .14);
     --line-dark: rgba(255, 255, 255, .16);
 
+    /* Theme-dependent surfaces. The dark bands (.work, .brief, .footer,
+       .marquee) and the brief card keep their own colours in both themes. */
+    --text: #0a0a0b;
+    --text-soft: #55555f;
+    --text-faint: #6b6b76;
+    --muted: rgba(10, 10, 11, .32);
+    --card: #ffffff;
+    --band: #0a0a0b;
+    --nav-bg: rgba(255, 255, 255, .82);
+    --chip-bg: rgba(255, 255, 255, .7);
+    --btn-bg: #0a0a0b;
+    --btn-fg: #ffffff;
+
     --font-display: "Bricolage Grotesque", "DM Sans", system-ui, sans-serif;
     --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
     --wrap: 1280px;
     --pad: clamp(1.25rem, 4vw, 4rem);
     --radius: 18px;
+}
+
+[data-theme="dark"] {
+    --paper: #0b0b0d;
+    --mist: #101014;
+    --text: #f3f3f6;
+    --text-soft: rgba(255, 255, 255, .64);
+    --text-faint: rgba(255, 255, 255, .5);
+    --muted: rgba(255, 255, 255, .34);
+    --line: rgba(255, 255, 255, .14);
+    --card: #16161a;
+    --band: #131317;
+    --nav-bg: rgba(11, 11, 13, .82);
+    --chip-bg: rgba(255, 255, 255, .08);
+    --btn-bg: #f3f3f6;
+    --btn-fg: #0b0b0d;
+    color-scheme: dark;
 }
 
 /* Arabic typography */
@@ -52,7 +82,7 @@ html { scroll-behavior: smooth; }
 body {
     margin: 0;
     background: var(--paper);
-    color: var(--ink);
+    color: var(--text);
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.6;
@@ -120,7 +150,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 }
 [dir="rtl"] .h2 { letter-spacing: 0; line-height: 1.25; }
 
-.h2 .muted { color: rgba(10, 10, 11, .32); }
+.h2 .muted { color: var(--muted); }
 .h2-light { color: #fff; }
 .h2-light .muted-light { color: rgba(255, 255, 255, .6); }
 
@@ -148,7 +178,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 .lede {
     margin-top: 1.4rem;
     max-width: 46ch;
-    color: #55555f;
+    color: var(--text-soft);
     font-size: 1.05rem;
 }
 
@@ -172,17 +202,17 @@ body ol { margin: 0; padding: 0; list-style: none; }
     text-align: center;
 }
 
-.btn-solid { background: var(--ink); color: #fff; }
+.btn-solid { background: var(--btn-bg); color: var(--btn-fg); }
 .btn-solid:hover { background: var(--violet); transform: translateY(-2px); }
 
 .btn-outline {
-    border-color: var(--ink);
-    color: var(--ink);
+    border-color: var(--text);
+    color: var(--text);
     background: transparent;
 }
-.btn-outline:hover { background: var(--ink); color: #fff; transform: translateY(-2px); }
+.btn-outline:hover { background: var(--text); color: var(--paper); transform: translateY(-2px); }
 
-.btn-ghost { color: var(--ink); padding-inline: .5rem; }
+.btn-ghost { color: var(--text); padding-inline: .5rem; }
 .btn-ghost:hover { color: var(--violet); }
 
 .btn-light { background: #fff; color: var(--ink); }
@@ -207,7 +237,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
     border-bottom: 1px solid transparent;
 }
 .nav.scrolled {
-    background: rgba(255, 255, 255, .82);
+    background: var(--nav-bg);
     backdrop-filter: blur(14px);
     border-bottom-color: var(--line);
 }
@@ -274,10 +304,28 @@ body ol { margin: 0; padding: 0; list-style: none; }
     font-weight: 700;
     letter-spacing: .08em;
     cursor: pointer;
-    color: var(--ink);
+    color: var(--text);
     transition: background .2s ease, color .2s ease;
 }
-.lang-btn:hover { background: var(--ink); color: #fff; }
+.lang-btn:hover { background: var(--text); color: var(--paper); }
+
+.theme-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    font-size: .95rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.theme-btn:hover { background: var(--text); color: var(--paper); border-color: var(--text); }
+.theme-btn .theme-icon { display: block; transform: translateY(-1px); }
 
 .burger {
     display: none;
@@ -291,7 +339,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 .burger span {
     width: 24px;
     height: 2px;
-    background: var(--ink);
+    background: var(--text);
     transition: transform .25s ease;
 }
 .burger.is-open span:first-child { transform: translateY(3.5px) rotate(45deg); }
@@ -369,7 +417,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
     font-size: .8rem;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: #52525c;
+    color: var(--text-soft);
     margin-bottom: clamp(1.2rem, 3vw, 2rem);
 }
 [dir="rtl"] .eyebrow { letter-spacing: 0; }
@@ -401,7 +449,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 }
 .hero-sub {
     max-width: 44ch;
-    color: #4c4c57;
+    color: var(--text-soft);
     font-size: clamp(.98rem, 1.2vw, 1.1rem);
 }
 .hero-cta {
@@ -422,15 +470,15 @@ body ol { margin: 0; padding: 0; list-style: none; }
     font-size: .74rem;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: #4c4c57;
+    color: var(--text-soft);
     transform: rotate(-4deg);
-    background: rgba(255, 255, 255, .7);
+    background: var(--chip-bg);
     backdrop-filter: blur(6px);
 }
 
 /* ---------- Marquee ---------- */
 .marquee {
-    background: var(--ink);
+    background: var(--band);
     color: #fff;
     overflow: hidden;
     padding-block: 1rem;
@@ -510,7 +558,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 .services-foot { margin-top: clamp(2rem, 4vw, 3rem); }
 
 /* ---------- Work ---------- */
-.work { background: var(--ink); color: #fff; }
+.work { background: var(--band); color: #fff; }
 .work .lede { color: rgba(255, 255, 255, .62); }
 
 .work-grid {
@@ -662,7 +710,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 .process-card h3 { font-size: 1.2rem; }
 .process-card p {
     margin-top: .6rem;
-    color: #56565f;
+    color: var(--text-soft);
     font-size: .94rem;
 }
 
@@ -676,7 +724,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 }
 .quote {
     margin: 0;
-    background: var(--paper);
+    background: var(--card);
     border-radius: var(--radius);
     padding: clamp(1.4rem, 2.6vw, 2rem);
     display: flex;
@@ -688,7 +736,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
     margin: 0;
     font-size: 1.02rem;
     line-height: 1.65;
-    color: #2a2a30;
+    color: var(--text);
 }
 .quote figcaption {
     display: flex;
@@ -711,11 +759,11 @@ body ol { margin: 0; padding: 0; list-style: none; }
     display: block;
     font-style: normal;
     font-size: .82rem;
-    color: #6b6b76;
+    color: var(--text-faint);
 }
 
 /* ---------- Brief ---------- */
-.brief { background: var(--ink); color: #fff; }
+.brief { background: var(--band); color: #fff; }
 .brief .about-p { color: rgba(255, 255, 255, .62); }
 
 .brief-grid {
@@ -741,6 +789,9 @@ body ol { margin: 0; padding: 0; list-style: none; }
 .brief-card {
     background: #fff;
     color: var(--ink);
+    /* The card stays light in both themes, so its buttons stay dark. */
+    --btn-bg: var(--ink);
+    --btn-fg: #ffffff;
     border-radius: 24px;
     padding: clamp(1.3rem, 3vw, 2.2rem);
     box-shadow: 0 40px 80px -50px rgba(0, 0, 0, .7);
@@ -869,7 +920,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- Footer ---------- */
 .footer {
-    background: var(--ink);
+    background: var(--band);
     color: #fff;
     padding-block: clamp(3rem, 6vw, 5rem) 2rem;
     border-top: 1px solid var(--line-dark);
@@ -944,7 +995,7 @@ body ol { margin: 0; padding: 0; list-style: none; }
         flex-direction: column;
         align-items: flex-start;
         gap: 1.1rem;
-        background: #fff;
+        background: var(--card);
         padding: 1.4rem var(--pad) 2rem;
         border-bottom: 1px solid var(--line);
         box-shadow: 0 20px 40px -30px rgba(0, 0, 0, .4);
@@ -993,6 +1044,18 @@ body ol { margin: 0; padding: 0; list-style: none; }
 }
 
 </style>
+    <script>
+        /* Set the theme before paint so a dark-mode visitor never sees a white flash. */
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var dark = saved
+                    ? saved === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+            } catch (e) { /* private mode */ }
+        })();
+    </script>
 </head>
 <body>
 
@@ -1014,6 +1077,9 @@ body ol { margin: 0; padding: 0; list-style: none; }
         </nav>
 
         <div class="nav-actions">
+            <button class="theme-btn" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch theme">
+                <span class="theme-icon" aria-hidden="true">☾</span>
+            </button>
             <button class="lang-btn" id="langToggle" type="button" aria-label="Switch language">AR</button>
             <a class="btn-solid" href="#brief" data-i18n="nav.start">Start a project</a>
         </div>
@@ -1789,6 +1855,60 @@ body ol { margin: 0; padding: 0; list-style: none; }
             applyLanguage(next);
             try { localStorage.setItem(LANG_KEY, next); } catch (e) { /* ignore */ }
         });
+    }
+
+    /* ============================================================
+       Theme
+       The first paint is already handled by the inline script in the
+       page head; this keeps the button in step and remembers the choice.
+       ============================================================ */
+    var THEME_KEY = 'theme';
+    var themeBtn = document.getElementById('themeToggle');
+
+    function currentTheme() {
+        return html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    function applyTheme(next) {
+        if (next === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+        } else {
+            html.removeAttribute('data-theme');
+        }
+
+        if (themeBtn) {
+            var dark = next === 'dark';
+            themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+            themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+            themeBtn.textContent = '';
+            var icon = document.createElement('span');
+            icon.className = 'theme-icon';
+            icon.setAttribute('aria-hidden', 'true');
+            icon.textContent = dark ? '☀' : '☾';
+            themeBtn.appendChild(icon);
+        }
+    }
+
+    applyTheme(currentTheme());
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+            var next = currentTheme() === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* ignore */ }
+        });
+    }
+
+    /* Follow the system only while the visitor has not chosen a theme. */
+    if (window.matchMedia) {
+        var scheme = window.matchMedia('(prefers-color-scheme: dark)');
+        var onScheme = function (event) {
+            var saved = null;
+            try { saved = localStorage.getItem(THEME_KEY); } catch (e) { /* ignore */ }
+            if (!saved) applyTheme(event.matches ? 'dark' : 'light');
+        };
+        if (scheme.addEventListener) scheme.addEventListener('change', onScheme);
+        else if (scheme.addListener) scheme.addListener(onScheme);
     }
 
     /* ============================================================

@@ -10,6 +10,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/home.css">
+    <script>
+        /* Set the theme before paint so a dark-mode visitor never sees a white flash. */
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var dark = saved
+                    ? saved === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+            } catch (e) { /* private mode */ }
+        })();
+    </script>
 </head>
 <body>
 
@@ -31,6 +43,9 @@
         </nav>
 
         <div class="nav-actions">
+            <button class="theme-btn" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch theme">
+                <span class="theme-icon" aria-hidden="true">☾</span>
+            </button>
             <button class="lang-btn" id="langToggle" type="button" aria-label="Switch language">AR</button>
             <a class="btn-solid" href="#brief" data-i18n="nav.start">Start a project</a>
         </div>

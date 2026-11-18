@@ -238,6 +238,60 @@
     }
 
     /* ============================================================
+       Theme
+       The first paint is already handled by the inline script in the
+       page head; this keeps the button in step and remembers the choice.
+       ============================================================ */
+    var THEME_KEY = 'theme';
+    var themeBtn = document.getElementById('themeToggle');
+
+    function currentTheme() {
+        return html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    function applyTheme(next) {
+        if (next === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+        } else {
+            html.removeAttribute('data-theme');
+        }
+
+        if (themeBtn) {
+            var dark = next === 'dark';
+            themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+            themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+            themeBtn.textContent = '';
+            var icon = document.createElement('span');
+            icon.className = 'theme-icon';
+            icon.setAttribute('aria-hidden', 'true');
+            icon.textContent = dark ? '☀' : '☾';
+            themeBtn.appendChild(icon);
+        }
+    }
+
+    applyTheme(currentTheme());
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+            var next = currentTheme() === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* ignore */ }
+        });
+    }
+
+    /* Follow the system only while the visitor has not chosen a theme. */
+    if (window.matchMedia) {
+        var scheme = window.matchMedia('(prefers-color-scheme: dark)');
+        var onScheme = function (event) {
+            var saved = null;
+            try { saved = localStorage.getItem(THEME_KEY); } catch (e) { /* ignore */ }
+            if (!saved) applyTheme(event.matches ? 'dark' : 'light');
+        };
+        if (scheme.addEventListener) scheme.addEventListener('change', onScheme);
+        else if (scheme.addListener) scheme.addListener(onScheme);
+    }
+
+    /* ============================================================
        Nav
        ============================================================ */
     var nav = document.getElementById('nav');
